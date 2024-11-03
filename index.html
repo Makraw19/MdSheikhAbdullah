@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Portfolio with Glowing Hover Effect and Contact Form</title>
+    <title>Responsive Portfolio</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <style>
         /* Basic Reset */
@@ -70,7 +70,7 @@
 
         .social-media-icons {
             position: fixed;
-            right: -120px; /* Start fully hidden */
+            right: -120px;
             top: 50%;
             transform: translateY(-50%);
             transition: right 0.3s ease;
@@ -83,7 +83,7 @@
         }
 
         .social-media-icons.show {
-            right: 50px; /* Adjust position to avoid overlap with toggle button */
+            right: 50px;
         }
 
         .social-media-icons a {
@@ -135,7 +135,7 @@
             margin-bottom: 1rem;
             opacity: 0;
             animation: slideInRight 1s ease forwards;
-            animation-delay: 4s; /* Start after the typing animation */
+            animation-delay: 4s;
         }
 
         .content p {
@@ -314,14 +314,14 @@
 
         /* Popup Modal Styling */
         .modal {
-            display: none; /* Hidden by default */
+            display: none;
             position: fixed;
-            z-index: 3; /* Above other elements */
+            z-index: 3;
             left: 0;
             top: 0;
             width: 100%;
             height: 100%;
-            background-color: rgba(0, 0, 0, 0.5); /* Semi-transparent background */
+            background-color: rgba(0, 0, 0, 0.5);
         }
 
         .modal-content {
@@ -363,6 +363,78 @@
 
         footer a:hover {
             color: #fff;
+        }
+
+        /* Responsive Styles */
+        @media (max-width: 768px) {
+            .navbar {
+                flex-direction: column;
+                gap: 1rem;
+                top: 10px;
+                font-size: 0.9rem;
+            }
+
+            .content h1 {
+                font-size: 2.5rem;
+            }
+
+            .content h2 {
+                font-size: 1.2rem;
+            }
+
+            .about-me-btn {
+                padding: 0.6rem 1.2rem;
+                font-size: 0.9rem;
+            }
+
+            #about, #skills {
+                padding: 1.5rem;
+                width: 95%;
+            }
+
+            .skill-icon {
+                font-size: 2.5rem;
+            }
+
+            .social-media-toggle {
+                padding: 0.4rem;
+            }
+
+            .social-media-icons a {
+                font-size: 1.3rem;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .content h1 {
+                font-size: 2rem;
+            }
+
+            .content h2 {
+                font-size: 1rem;
+            }
+
+            .content p {
+                font-size: 0.9rem;
+                padding: 0 1rem;
+            }
+
+            #about, #skills {
+                padding: 1rem;
+            }
+
+            .skill-icon {
+                font-size: 2rem;
+            }
+
+            .contact-form {
+                padding: 1.5rem;
+            }
+
+            .social-media-toggle {
+                padding: 0.3rem;
+                font-size: 1.3rem;
+            }
         }
     </style>
 </head>

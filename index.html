@@ -3,630 +3,253 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Responsive Portfolio</title>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
-    <style>
-        /* Basic Reset */
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-
-        body, html {
-            font-family: Arial, sans-serif;
-            color: white;
-            overflow-x: hidden;
-            background: linear-gradient(135deg, #6a0dad, #ff007f);
-            height: 100%;
-            width: 100%;
-            scroll-behavior: smooth;
-            text-align: center;
-        }
-
-        /* Navbar */
-        .navbar {
-            display: flex;
-            justify-content: center;
-            gap: 2rem;
-            font-size: 1rem;
-            text-transform: uppercase;
-            position: fixed;
-            top: 20px;
-            width: 100%;
-            z-index: 1;
-        }
-
-        .navbar a {
-            color: rgba(255, 255, 255, 0.8);
-            text-decoration: none;
-            transition: color 0.3s;
-            cursor: pointer;
-        }
-
-        .navbar a:hover {
-            color: #ffffff;
-        }
-
-        /* Social Media Toggle Button */
-        .social-media-toggle {
-            position: fixed;
-            right: 10px;
-            top: 50%;
-            transform: translateY(-50%);
-            background: linear-gradient(135deg, #ff007f, #6a0dad);
-            padding: 0.5rem;
-            border-radius: 10px 0 0 10px;
-            cursor: pointer;
-            z-index: 3;
-            transition: transform 0.3s ease, box-shadow 0.3s ease;
-            box-shadow: 0px 4px 15px rgba(0, 0, 0, 0.3);
-        }
-
-        .social-media-toggle:hover {
-            transform: scale(1.1);
-            box-shadow: 0px 6px 20px rgba(0, 0, 0, 0.4);
-        }
-
-        .social-media-icons {
-            position: fixed;
-            right: -120px;
-            top: 50%;
-            transform: translateY(-50%);
-            transition: right 0.3s ease;
-            display: flex;
-            flex-direction: column;
-            gap: 1rem;
-            padding: 0.5rem;
-            background-color: #6a0dad;
-            border-radius: 10px 0 0 10px;
-        }
-
-        .social-media-icons.show {
-            right: 50px;
-        }
-
-        .social-media-icons a {
-            color: white;
-            font-size: 1.5rem;
-            text-decoration: none;
-            transition: transform 0.3s ease, box-shadow 0.3s ease;
-        }
-
-        .social-media-icons a:hover {
-            transform: scale(1.2);
-            box-shadow: 0px 4px 10px rgba(255, 0, 127, 0.5);
-        }
-
-        /* Typewriter Animation */
-        @keyframes typing {
-            from { width: 0; }
-            to { width: 100%; }
-        }
-
-        /* Slide-in Animation for Subtitle */
-        @keyframes slideInRight {
-            from { transform: translateX(100%); opacity: 0; }
-            to { transform: translateX(0); opacity: 1; }
-        }
-
-        /* Main Content */
-        .content {
-            padding-top: 100px;
-            text-align: center;
-            z-index: 1;
-        }
-
-        .content h1 {
-            font-size: 3rem;
-            font-weight: bold;
-            text-transform: uppercase;
-            letter-spacing: 3px;
-            overflow: hidden;
-            white-space: nowrap;
-            border-right: 0.15em solid #ffffff;
-            width: 0;
-            animation: typing 4s steps(30, end) forwards;
-        }
-
-        .content h2 {
-            font-size: 1.5rem;
-            letter-spacing: 2px;
-            margin-bottom: 1rem;
-            opacity: 0;
-            animation: slideInRight 1s ease forwards;
-            animation-delay: 4s;
-        }
-
-        .content p {
-            font-size: 1rem;
-            line-height: 1.6;
-            margin-bottom: 2rem;
-            opacity: 0.8;
-            max-width: 600px;
-            margin: 0 auto;
-        }
-
-        .about-me-btn {
-            padding: 0.8rem 1.5rem;
-            font-size: 1rem;
-            font-weight: bold;
-            color: #6a0dad;
-            background-color: #fff;
-            border: none;
-            border-radius: 30px;
-            cursor: pointer;
-            transition: background 0.3s, box-shadow 0.3s;
-        }
-
-        .about-me-btn:hover {
-            background-color: #f0f0f0;
-            box-shadow: 0px 4px 15px rgba(0, 0, 0, 0.3);
-        }
-
-        /* About Me Section */
-        #about {
-            padding: 2rem;
-            background-color: #1c1c1e;
-            color: #f0f0f0;
-            margin: 2rem auto;
-            border-radius: 10px;
-            max-width: 800px;
-            text-align: center;
-        }
-
-        #about p {
-            max-width: 600px;
-            margin: 0 auto;
-            line-height: 1.8;
-        }
-
-        /* Glow effect for each letter on hover */
-        #about p span {
-            display: inline-block;
-            transition: color 0.3s, text-shadow 0.3s;
-        }
-
-        #about p span:hover {
-            color: #ff007f;
-            text-shadow: 0 0 8px rgba(255, 0, 127, 0.6), 0 0 12px rgba(255, 0, 127, 0.5);
-        }
-
-        /* Skills Section */
-        #skills {
-            background-color: #1c1c1e;
-            color: #f0f0f0;
-            padding: 3rem 2rem;
-            width: 90%;
-            max-width: 1200px;
-            border-radius: 15px;
-            box-shadow: 0px 8px 15px rgba(0, 0, 0, 0.3);
-            margin: 2rem auto;
-            text-align: center;
-        }
-
-        .skills-grid {
-            display: flex;
-            flex-wrap: wrap;
-            justify-content: center;
-            gap: 2rem;
-        }
-
-        .skill {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            width: 100px;
-        }
-
-        .skill-icon {
-            font-size: 3rem;
-            color: #ff007f;
-            margin-bottom: 0.5rem;
-            transition: transform 0.3s, box-shadow 0.3s;
-        }
-
-        .skill-icon:hover {
-            transform: scale(1.1);
-            box-shadow: 0px 4px 15px rgba(255, 0, 127, 0.5);
-        }
-
-        /* Wobble Animation */
-        @keyframes wobble {
-            0%, 100% { transform: rotate(0deg); }
-            25% { transform: rotate(-5deg); }
-            50% { transform: rotate(5deg); }
-            75% { transform: rotate(-5deg); }
-        }
-
-        .wobble-effect {
-            animation: wobble 0.5s ease-in-out forwards;
-        }
-
-        /* Slide-in Contact Form */
-        .contact-form-container {
-            position: fixed;
-            top: 0;
-            right: -100%;
-            width: 100%;
-            max-width: 400px;
-            height: 100vh;
-            background-color: #fff;
-            color: #333;
-            box-shadow: -5px 0 15px rgba(0, 0, 0, 0.3);
-            z-index: 2;
-            padding: 2rem;
-            transition: right 0.5s ease;
-            overflow-y: auto;
-        }
-
-        .contact-form-container.show {
-            right: 0;
-        }
-
-        .contact-form h2 {
-            font-size: 1.5rem;
-            color: #6a0dad;
-            margin-bottom: 1rem;
-        }
-
-        .contact-form label {
-            display: block;
-            margin: 0.5rem 0 0.2rem;
-            font-size: 0.9rem;
-            color: #333;
-        }
-
-        .contact-form input, .contact-form textarea {
-            width: 100%;
-            padding: 0.8rem;
-            margin-bottom: 1rem;
-            border: 1px solid #ccc;
-            border-radius: 5px;
-            font-size: 1rem;
-        }
-
-        .contact-form button {
-            padding: 0.8rem 1.5rem;
-            font-size: 1rem;
-            font-weight: bold;
-            color: #fff;
-            background-color: #ff007f;
-            border: none;
-            border-radius: 5px;
-            cursor: pointer;
-            transition: background 0.3s;
-        }
-
-        .contact-form button:hover {
-            background-color: #ff3366;
-        }
-
-        /* Close Button */
-        .close-btn {
-            position: absolute;
-            top: 10px;
-            right: 20px;
-            font-size: 1.5rem;
-            color: #333;
-            cursor: pointer;
-        }
-
-        /* Popup Modal Styling */
-        .modal {
-            display: none;
-            position: fixed;
-            z-index: 3;
-            left: 0;
-            top: 0;
-            width: 100%;
-            height: 100%;
-            background-color: rgba(0, 0, 0, 0.5);
-        }
-
-        .modal-content {
-            background-color: #fff;
-            margin: 15% auto;
-            padding: 20px;
-            width: 80%;
-            max-width: 400px;
-            border-radius: 10px;
-            text-align: center;
-            color: #333;
-        }
-
-        .close-modal {
-            position: absolute;
-            top: 10px;
-            right: 20px;
-            font-size: 1.5rem;
-            color: #333;
-            cursor: pointer;
-        }
-
-        /* Footer Section */
-        footer {
-            background-color: #2e2e2e;
-            color: #d1d1d1;
-            text-align: center;
-            padding: 1rem;
-            font-size: 0.9rem;
-            width: 100%;
-            margin-top: 2rem;
-        }
-
-        footer a {
-            color: #ff007f;
-            text-decoration: none;
-            transition: color 0.3s;
-        }
-
-        footer a:hover {
-            color: #fff;
-        }
-
-        /* Responsive Styles */
-        @media (max-width: 768px) {
-            .navbar {
-                flex-direction: column;
-                gap: 1rem;
-                top: 10px;
-                font-size: 0.9rem;
-            }
-
-            .content h1 {
-                font-size: 2.5rem;
-            }
-
-            .content h2 {
-                font-size: 1.2rem;
-            }
-
-            .about-me-btn {
-                padding: 0.6rem 1.2rem;
-                font-size: 0.9rem;
-            }
-
-            #about, #skills {
-                padding: 1.5rem;
-                width: 95%;
-            }
-
-            .skill-icon {
-                font-size: 2.5rem;
-            }
-
-            .social-media-toggle {
-                padding: 0.4rem;
-            }
-
-            .social-media-icons a {
-                font-size: 1.3rem;
-            }
-        }
-
-        @media (max-width: 480px) {
-            .content h1 {
-                font-size: 2rem;
-            }
-
-            .content h2 {
-                font-size: 1rem;
-            }
-
-            .content p {
-                font-size: 0.9rem;
-                padding: 0 1rem;
-            }
-
-            #about, #skills {
-                padding: 1rem;
-            }
-
-            .skill-icon {
-                font-size: 2rem;
-            }
-
-            .contact-form {
-                padding: 1.5rem;
-            }
-
-            .social-media-toggle {
-                padding: 0.3rem;
-                font-size: 1.3rem;
-            }
-        }
-    </style>
+    <title>MD Sheikh Abdullah - Software QA Engineer</title>
+    <link rel="stylesheet" href="styles.css">
 </head>
 <body>
-    <!-- Social Media Toggle Button -->
-    <div class="social-media-toggle" onclick="toggleSocialMedia()" id="socialMediaToggle">
-        <i class="fas fa-share-alt"></i>
-    </div>
-    <div class="social-media-icons" id="socialMediaIcons">
-        <a href="https://facebook.com" target="_blank"><i class="fab fa-facebook-f"></i></a>
-        <a href="https://twitter.com" target="_blank"><i class="fab fa-twitter"></i></a>
-        <a href="https://linkedin.com" target="_blank"><i class="fab fa-linkedin-in"></i></a>
-        <a href="https://github.com" target="_blank"><i class="fab fa-github"></i></a>
-        <a href="https://discord.com" target="_blank"><i class="fab fa-discord"></i></a>
-    </div>
+    <!-- Animated Background -->
+    <div class="bg-particles" id="particles"></div>
 
-    <!-- Navbar -->
-    <div class="navbar">
-        <a onclick="scrollToSection('about')">About Me</a>
-        <a onclick="scrollToSection('skills')">Skills</a>
-        <a onclick="showContactForm()">Contact</a>
-    </div>
+    <!-- Navigation -->
+    <nav>
+        <!-- Removed hamburger-menu-icon div -->
+        <ul class="nav-menu"> <!-- Added class nav-menu -->
+            <li><a href="#home">Home</a></li>
+            <li><a href="#about">About</a></li>
+            <li><a href="#skills">Skills</a></li>
+            <li><a href="#experience">Experience</a></li>
+            <li><a href="#contact">Contact</a></li>
+        </ul>
+    </nav>
 
-    <!-- Main Content with Static Headings -->
-    <div class="content">
-        <h1>MD SHEIKH ABDULLAH</h1>
-        <h2>Software Tester</h2>
-        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed diam nonummy nibh euismod tincidunt ut laoreet dolore magna.</p>
-        <button class="about-me-btn" onclick="scrollToSection('about')">About Me</button>
-    </div>
+    <!-- Hero Section -->
+    <section id="home" class="hero">
+        <div class="hero-content">
+            <h1>MD Sheikh Abdullah</h1>
+            <p class="subtitle">Senior Software QA Engineer</p>
+            <p class="description">
+                Passionate about ensuring software excellence through comprehensive testing strategies,
+                automation frameworks, and quality assurance best practices. Specializing in test automation,
+                performance testing, and agile methodologies.
+            </p>
+            <div class="cta-buttons">
+                <a href="#contact" class="btn btn-primary">Get In Touch</a>
+                <a href="#experience" class="btn btn-secondary">View My Work</a>
+            </div>
+        </div>
+    </section>
 
-    <!-- About Me Section -->
+    <!-- About Section -->
     <section id="about">
-        <h2>About Me</h2>
-        <p id="aboutText">
-            At Tensis, my approach to QA engineering blends rigorous OWASP assessments and cross-functional collaboration, ensuring our software meets the highest quality and security standards. Our team's commitment to refining QA processes aligns closely with the company's project goals, enhancing user experience through detailed test plans and documentation. With a solid educational foundation from American International University-Bangladesh, my expertise in CI/CD and DevOps informs every aspect of my work.
-
-            Previously at PenCS, I engineered a TestComplete framework for Practice Cloud, vital to Australia's Private Health Network. This innovation resulted in a 40% reduction in manual efforts, underscoring my dedication to healthcare informatics. As a certified TestComplete Desktop and Web Automation Engineer, I leverage these credentials to elevate automated testing methodologies, driving forward the efficiency and reliability of our software solutions.
-        </p>
+        <h2 class="section-title">About Me</h2>
+        <div style="text-align: center; max-width: 800px; margin: 0 auto; font-size: 1.1rem; line-height: 1.8; color: #cccccc;">
+            <p>
+                With over 4 years of experience in software quality assurance, I've helped companies
+                deliver high-quality software products by implementing robust testing strategies and automation frameworks. My expertise spans across web applications, mobile apps, and API testing, with a strong focus on
+                continuous integration and delivery practices.
+            </p>
+            <br>
+            <p>
+                I'm passionate about staying up-to-date with the latest testing tools and methodologies,
+                and I enjoy mentoring junior QA engineers to build strong testing foundations in development teams.
+            </p>
+        </div>
     </section>
 
     <!-- Skills Section -->
     <section id="skills">
-        <h2>Skills & Experience</h2>
-        <p>Specialized in software testing and automation, with expertise in the following tools and languages:</p>
+        <h2 class="section-title">Core Skills</h2>
+        <div class="skills-container">
+            <div class="skill-category">
+                <h3 class="category-title">🔧 Test Automation</h3>
+                <div class="skills-grid">
+                    <div class="skill-tag">Selenium WebDriver</div>
+                    <div class="skill-tag">Katalon Studio</div>
+                    <div class="skill-tag">Cypress</div>
+                    <div class="skill-tag">Test Complete</div>
+                    <div class="skill-tag">TestNG</div>
+                    <div class="skill-tag">JUnit</div>
+                    <div class="skill-tag">Playwright</div>
+                    <div class="skill-tag">Appium</div>
+                    <div class="skill-tag">RestAssured</div>
+                </div>
+            </div>
 
-        <div class="skills-grid">
-            <div class="skill">
-                <div class="skill-icon"><i class="fab fa-java"></i></div>
-                <div class="skill-title">Java</div>
+            <div class="skill-category">
+                <h3 class="category-title">💻 Programming & Scripting</h3>
+                <div class="skills-grid">
+                    <div class="skill-tag">Java</div>
+                    <div class="skill-tag">Python</div>
+                    <div class="skill-tag">JavaScript</div>
+                    <div class="skill-tag">TypeScript</div>
+                    <div class="skill-tag">SQL</div>
+                    <div class="skill-tag">Bash</div>
+                    <div class="skill-tag">Groovy</div>
+                </div>
             </div>
-            <div class="skill">
-                <div class="skill-icon">G</div>
-                <div class="skill-title">Groovy</div>
+
+            <div class="skill-category">
+                <h3 class="category-title">🧪 Testing Types</h3>
+                <div class="skills-grid">
+                    <div class="skill-tag">Functional Testing</div>
+                    <div class="skill-tag">API Testing</div>
+                    <div class="skill-tag">Performance Testing</div>
+                    <div class="skill-tag">Security Testing</div>
+                    <div class="skill-tag">Mobile Testing</div>
+                    <div class="skill-tag">Accessibility Testing</div>
+                </div>
             </div>
-            <div class="skill">
-                <div class="skill-icon"><i class="fab fa-js-square"></i></div>
-                <div class="skill-title">JavaScript</div>
-            </div>
-            <div class="skill">
-                <div class="skill-icon"><i class="fab fa-python"></i></div>
-                <div class="skill-title">Python</div>
-            </div>
-            <div class="skill">
-                <div class="skill-icon"><i class="fas fa-mouse-pointer"></i></div>
-                <div class="skill-title">Selenium</div>
-            </div>
-            <div class="skill">
-                <div class="skill-icon">K</div>
-                <div class="skill-title">KATALON Studio</div>
-            </div>
-            <div class="skill">
-                <div class="skill-icon">C</div>
-                <div class="skill-title">Cypress</div>
-            </div>
-            <div class="skill">
-                <div class="skill-icon">TC</div>
-                <div class="skill-title">Test Complete</div>
-            </div>
-            <div class="skill">
-                <div class="skill-icon">🍀</div>
-                <div class="skill-title">Cucumber</div>
-            </div>
-            <div class="skill">
-                <div class="skill-icon">J</div>
-                <div class="skill-title">JMeter</div>
-            </div>
-            <div class="skill">
-                <div class="skill-icon"><i class="fas fa-lock"></i></div>
-                <div class="skill-title">Burp Suite</div>
+
+            <div class="skill-category">
+                <h3 class="category-title">🛠️ Tools & Technologies</h3>
+                <div class="skills-grid">
+                    <div class="skill-tag">JIRA</div>
+                    <div class="skill-tag">TestRail</div>
+                    <div class="skill-tag">Jenkins</div>
+                    <div class="skill-tag">GitHub Actions</div>
+                    <div class="skill-tag">Docker</div>
+                    <div class="skill-tag">Postman</div>
+                    <div class="skill-tag">JMeter</div>
+                    <div class="skill-tag">Browserstack</div>
+                </div>
             </div>
         </div>
     </section>
 
-    <!-- Slide-in Contact Form -->
-    <div class="contact-form-container" id="contactForm">
-        <span class="close-btn" onclick="hideContactForm()">&times;</span>
+    <!-- Experience Section -->
+    <section id="experience">
+        <h2 class="section-title">Professional Experience</h2>
+        <div class="timeline">
+            <div class="timeline-item">
+                <div class="timeline-content" data-experience="senior-qa">
+                    <h3>Senior QA Engineer</h3>
+                    <div class="company">Tensis • 2024 - Present</div>
+                    <p>Lead QA initiatives for enterprise web applications, implementing comprehensive test automation frameworks. Reduced regression testing time by 70% through automation.</p>
+                </div>
+            </div>
+            <div class="timeline-item">
+                <div class="timeline-content" data-experience="qa-automation">
+                    <h3>QA Automation Engineer</h3>
+                    <div class="company">Pen CS • 2023 - 2024</div>
+                    <p>Developed and maintained automated test suites for mobile and web applications. Implemented CI/CD pipelines with automated testing, improving deployment confidence and reducing bugs in production by 40%.</p>
+                </div>
+            </div>
+            <div class="timeline-item">
+                <div class="timeline-content" data-experience="software-qa">
+                    <h3>Software QA Engineer</h3>
+                    <div class="company">StartupXYZ • 2017 - 2019</div>
+                    <p>Performed manual and automated testing for SaaS products. Created comprehensive test documentation and established quality assurance processes from ground up in a fast-paced startup environment.</p>
+                </div>
+            </div>
+            <div class="timeline-item">
+                <div class="timeline-content" data-experience="junior-qa">
+                    <h3>Junior QA Tester</h3>
+                    <div class="company">WebSolutions Inc • 2016 - 2017</div>
+                    <p>Started career in software testing, focusing on manual testing of web applications. Learned fundamentals of testing methodologies and gained experience with bug tracking and test case management.</p>
+                </div>
+            </div>
+        </div>
+
+    <!-- Experience Popup -->
+    <div class="popup-overlay" id="popup-overlay"></div>
+    <div class="experience-popup" id="experience-popup">
+        <button class="popup-close" id="popup-close">&times;</button>
+        <div id="popup-content"></div>
+    </div>
+    </section>
+
+    <!-- Removed AI Assistant Section -->
+
+    <!-- Contact Section -->
+    <section id="contact">
+        <h2 class="section-title">Let's Work Together</h2>
         <div class="contact-form">
-            <h2>Contact Me</h2>
-            <form>
-                <label for="firstName">First Name</label>
-                <input type="text" id="firstName" name="firstName" required>
-
-                <label for="lastName">Last Name</label>
-                <input type="text" id="lastName" name="lastName" required>
-
-                <label for="email">Email</label>
-                <input type="email" id="email" name="email" required>
-
-                <label for="message">Message</label>
-                <textarea id="message" name="message" rows="4" required></textarea>
-
-                <button type="submit">Send Message</button>
+            <!-- IMPORTANT: Replace "YOUR_FORMSPREE_ENDPOINT_HERE" with your actual Formspree endpoint -->
+            <form action="https://formspree.io/f/myzjdlee" method="POST">
+                <div class="form-group">
+                    <label for="name">Name</label>
+                    <input type="text" id="name" name="name" required>
+                </div>
+                <div class="form-group">
+                    <label for="email">Email</label>
+                    <input type="email" id="email" name="email" required>
+                </div>
+                <div class="form-group">
+                    <label for="subject">Subject</label>
+                    <input type="text" id="subject" name="_subject" required> <!-- Formspree uses _subject for email subject -->
+                </div>
+                <div class="form-group">
+                    <label for="message">Message</label>
+                    <textarea id="message" name="message" required></textarea>
+                </div>
+                <button type="submit" class="btn btn-primary" style="width: 100%;">Send Message</button>
             </form>
+            <!-- Removed fixed contact info from here -->
+        </div>
+    </section>
+
+    <!-- Floating Contact Button (Pill) -->
+    <button id="floatingContactBtn" class="floating-contact-btn">
+        <span class="btn-text">Contact Me</span>
+        <!-- Initial Icon (Envelope/Chat Bubble) -->
+        <svg class="btn-icon initial-icon" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path>
+        </svg>
+        <!-- Close Icon (X) -->
+        <svg class="btn-icon close-icon" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line>
+        </svg>
+    </button>
+
+    <!-- Contact Options Popup -->
+    <div class="contact-options-overlay" id="contactOptionsOverlay"></div>
+    <div class="contact-options-popup" id="contactOptionsPopup">
+        <button class="popup-close contact-options-close" id="contactOptionsClose">&times;</button>
+        <div class="popup-header">
+            <h3 class="popup-title">Get In Touch</h3>
+        </div>
+        <div class="contact-info-container">
+            <div class="contact-detail-group">
+                <a href="mailto:mdsheikhabdullah@email.com" class="contact-detail-item">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="color: #00ffff;">
+                        <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path>
+                        <polyline points="22,6 12,13 2,6"></polyline>
+                    </svg>
+                    <span>mdsheikhabdullah@email.com</span>
+                </a>
+                <a href="tel:+61434239738" class="contact-detail-item">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="color: #00ffff;">
+                        <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"></path>
+                    </svg>
+                    <span>+61 (434) 239-738</span>
+                </a>
+            </div>
+            <div class="social-links-group">
+                <a href="https://linkedin.com/in/mdsheikhabdullah-qa" target="_blank" class="social-link">
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="color: #0077b5;">
+                        <path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"></path>
+                        <rect x="2" y="9" width="4" height="12"></rect>
+                        <circle cx="4" cy="4" r="2"></circle>
+                    </svg>
+                    <span>LinkedIn</span>
+                </a>
+                <a href="https://github.com/mdsheikhabdullah-qa" target="_blank" class="social-link">
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="color: #ffffff;">
+                        <path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"></path>
+                    </svg>
+                    <span>GitHub</span>
+                </a>
+            </div>
         </div>
     </div>
 
-    <!-- Popup Modal -->
-    <div id="popupModal" class="modal">
-        <div class="modal-content">
-            <span class="close-modal" onclick="closeModal()">&times;</span>
-            <p>I am going to connect with you soon...</p>
-        </div>
-    </div>
+    <!-- Scroll-to-top Button -->
+    <button id="scrollToTopBtn" class="scroll-to-top-btn">
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <polyline points="18 15 12 9 6 15"></polyline>
+        </svg>
+    </button>
 
-    <!-- Footer Section -->
-    <footer>
-        &copy; 2024 Your Portfolio. Designed with 💜. Connect with me on 
-        <a href="#!" target="_blank">LinkedIn</a> | 
-        <a href="#!" target="_blank">GitHub</a>
-    </footer>
-
-    <script>
-        function scrollToSection(sectionId) {
-            document.getElementById(sectionId).scrollIntoView({ behavior: 'smooth' });
-        }
-
-        function wrapLetters() {
-            const aboutText = document.getElementById("aboutText");
-            const text = aboutText.innerText;
-            aboutText.innerHTML = text.split('').map(char => `<span>${char}</span>`).join('');
-        }
-
-        function toggleSocialMedia() {
-            const socialIcons = document.querySelector('.social-media-icons');
-            socialIcons.classList.toggle('show');
-        }
-
-        function showContactForm() {
-            document.getElementById("contactForm").classList.add("show");
-            document.getElementById("socialMediaToggle").style.display = "none"; // Hide social media toggle
-        }
-
-        function hideContactForm() {
-            document.getElementById("contactForm").classList.remove("show");
-            document.getElementById("socialMediaToggle").style.display = "block"; // Show social media toggle again
-        }
-
-        document.addEventListener("DOMContentLoaded", wrapLetters);
-
-        // JavaScript for Sequential Wobble Effect
-        document.addEventListener("DOMContentLoaded", function() {
-            const skills = document.querySelectorAll(".skill");
-            let currentIndex = 0;
-
-            function applyWobble() {
-                skills.forEach(skill => skill.classList.remove("wobble-effect"));
-                skills[currentIndex].classList.add("wobble-effect");
-                currentIndex = (currentIndex + 1) % skills.length;
-            }
-
-            setInterval(applyWobble, 700); 
-        });
-
-        // Show the modal when form is submitted, hide form, and auto-close modal
-        document.querySelector(".contact-form form").addEventListener("submit", function(event) {
-            event.preventDefault(); 
-            
-            // Hide contact form
-            document.getElementById("contactForm").classList.remove("show");
-
-            // Show popup modal
-            const modal = document.getElementById("popupModal");
-            modal.style.display = "block";
-
-            // Hide the modal after 2 seconds
-            setTimeout(closeModal, 2000);
-        });
-
-        function closeModal() {
-            document.getElementById("popupModal").style.display = "none";
-        }
-    </script>
+    <script src="scripts.js"></script>
 </body>
 </html>

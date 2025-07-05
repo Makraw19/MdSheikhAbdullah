@@ -475,16 +475,82 @@ section {
 .contact-detail-item:hover, .social-link:hover { color: #ffffff; }
 
 /* Responsive Design */
-@media (max-width: 768px) {
-    body { font-size: 14px; }
-    .hero h1 { font-size: 2.8rem; }
-    .hero .subtitle { font-size: 1.2rem; }
-    section { padding: 80px 20px; }
-    .section-title { font-size: 2.5rem; margin-bottom: 60px; }
-    nav { width: calc(100% - 30px); padding: 8px 15px; }
-    nav ul { gap: 10px; }
-    nav a { padding: 6px 8px; font-size: 0.9rem; }
-    .timeline::before, .timeline-progress { left: 20px; }
-    .timeline-item, .timeline-item:nth-child(odd) { width: 100%; left: 0; padding-left: 40px; }
-    .timeline-content { margin: 0; width: 100%; }
+
+/* Tablet Styles */
+@media (max-width: 1024px) {
+    body {
+        font-size: 15px; /* Slightly increase base font size for readability on tablets */
+    }
+    section {
+        padding: 100px 40px;
+    }
+    .hero h1 {
+        font-size: 3.5rem;
+    }
+    .section-title {
+        font-size: 3rem;
+    }
+    nav ul {
+        gap: 20px;
+    }
 }
+
+/* Phone Styles */
+@media (max-width: 768px) {
+    body {
+        font-size: 14px;
+    }
+    .hero h1 {
+        font-size: 2.5rem;
+    }
+    .hero .subtitle {
+        font-size: 1.1rem;
+    }
+    section {
+        padding: 80px 20px;
+    }
+    .section-title {
+        font-size: 2.2rem;
+        margin-bottom: 50px;
+    }
+    nav {
+        width: calc(100% - 20px);
+        padding: 8px 10px;
+    }
+    nav ul {
+        gap: 5px;
+        justify-content: space-between;
+        width: 100%;
+    }
+    nav a {
+        padding: 8px;
+        font-size: 0.8rem;
+        flex-grow: 1;
+        text-align: center;
+    }
+    .timeline::before, .timeline-progress {
+        left: 10px;
+    }
+    .timeline-item, .timeline-item:nth-child(odd) {
+        width: 100%;
+        left: 0;
+        padding-left: 30px;
+    }
+    .timeline-content {
+        margin: 0;
+        width: 100%;
+    }
+    .contact-options-popup {
+        left: 15px;
+        width: calc(100% - 30px);
+    }
+    .floating-contact-btn {
+        left: 15px;
+        bottom: 15px;
+    }
+    .scroll-to-top-btn {
+        right: 15px;
+        bottom: 15px;
+    }
+}
+

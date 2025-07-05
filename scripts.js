@@ -141,89 +141,91 @@ function initFormHandler() {
 // Experience popup functionality
 function initExperiencePopups() {
     const experienceData = {
-        'senior-qa': {
-            title: 'Senior QA Engineer',
-            company: 'TechCorp Solutions',
-            duration: '2021 - Present',
+        'tensis-sr-qa': {
+            title: 'Sr. Quality Assurance Engineer',
+            company: 'Tensis || Ultimo, Sydney',
+            duration: 'October 2024 – Present',
             responsibilities: [
-                'Lead a team of 5 QA engineers across multiple product lines',
-                'Designed and implemented comprehensive test automation frameworks using Selenium and TestNG',
-                'Reduced regression testing time from 40 hours to 12 hours through strategic automation',
-                'Established quality gates and metrics that improved product reliability by 85%',
-                'Mentored junior engineers and conducted training sessions on best practices',
-                'Collaborated with DevOps team to integrate automated testing into CI/CD pipelines',
-                'Performed risk-based testing and created detailed test strategies for new features'
+                "Developed and implemented comprehensive QA strategies and roadmaps aligned with Tensis's AI-powered automation solutions and company goals.",
+                "Established and maintaining rigorous quality standards, metrics, and KPIs, focusing on data integrity, security, accuracy, and regulatory compliance.",
+                "Proactively identify and assess potential quality risks, developing strategies for effective mitigation.",
+                "Established robust defect tracking, reporting, and resolution processes, ensuring clear communication and timely fixes.",
+                "Lead the adoption and expansion of test automation frameworks and tools, maximizing automation coverage for efficiency and reliability, especially for data-driven scenarios.",
+                "Implementation of performance, load, and security testing to ensure scalability, responsiveness, and resilience, particularly for critical data.",
+                "Ensure thorough testing of APIs and integrations with third-party systems."
             ],
-            tools: ['Selenium WebDriver', 'TestNG', 'Jenkins', 'JIRA', 'Git', 'Maven', 'Docker', 'AWS', 'Postman', 'JMeter', 'Allure Reports'],
-            achievements: [
-                'Reduced critical bugs in production by 70%',
-                'Improved team productivity by 50% through automation',
-                'Successfully delivered 15+ major releases with zero critical issues',
-                'Implemented automated performance testing saving 20 hours per release cycle'
-            ]
+            tools: ['JIRA', 'TestRail', 'Selenium', 'Cypress', 'Playwright', 'Postman', 'JMeter', 'CI/CD', 'SQL'],
         },
-        'qa-automation': {
-            title: 'QA Automation Engineer',
-            company: 'InnovateTech',
-            duration: '2019 - 2021',
+        'pencs-qa': {
+            title: 'Quality Assurance Engineer',
+            company: 'Pen CS || Leichhardt, Sydney',
+            duration: 'November 2023 – October 2024',
             responsibilities: [
-                'Developed robust automated test suites for web and mobile applications',
-                'Created API testing frameworks using RestAssured and Postman',
-                'Implemented cross-browser testing strategies using Selenium Grid',
-                'Built mobile test automation using Appium for iOS and Android',
-                'Integrated automated tests into CI/CD pipelines using Jenkins',
-                'Performed load and performance testing using JMeter',
-                'Collaborated with development teams to implement shift-left testing practices'
+                "Developing comprehensive test plans, scenario matrix and test cases to ensure thorough test coverage.",
+                "Executing test cases, identified defects, and reported them in a clear and concise manner.",
+                "Collaborating with developers and business analysts to understand software requirements and ensure testing objectives were met.",
+                "Documenting test results, generated defect reports, and maintained accurate and organized test documentation.",
+                "Conducting root cause analysis for defects, providing recommendations for improvements.",
+                "Working closely with cross-functional teams to ensure alignment of testing efforts and project deliverables.",
+                "Actively participated in team meetings, providing insights and suggestions to enhance overall software quality.",
+                "Written automation script using Test Complete for the functional test cases of desktop application.",
+                "Maintaining knowledge of industry best practices and emerging technologies in software testing."
             ],
-            tools: ['Selenium', 'Appium', 'RestAssured', 'Cypress', 'Jenkins', 'Git', 'TestRail', 'BrowserStack', 'JMeter', 'Postman', 'Maven'],
-            achievements: [
-                'Built automation framework from scratch covering 80% test coverage',
-                'Reduced manual testing effort by 60%',
-                'Implemented parallel test execution reducing execution time by 75%',
-                'Created reusable test components used across 5 different projects'
-            ]
+            tools: ['Test Complete', 'JIRA', 'SQL', 'Agile'],
         },
-        'software-qa': {
-            title: 'Software QA Engineer',
-            company: 'StartupXYZ',
-            duration: '2017 - 2019',
+        'wedaedalus-mid': {
+            title: 'Test Automation Engineer (Mid-Level)',
+            company: 'WeDaedalus LLC || Michigan, USA',
+            duration: 'July 2022 – October 2023',
             responsibilities: [
-                'Performed comprehensive manual testing for SaaS platform features',
-                'Created and maintained detailed test cases and test documentation',
-                'Established QA processes and testing standards from ground up',
-                'Conducted functional, regression, and user acceptance testing',
-                'Performed API testing and database validation',
-                'Collaborated closely with product managers and developers',
-                'Participated in agile ceremonies and sprint planning'
+                "Define and drive the overall test automation strategy, considering the application's architecture, complexity, and testing goals.",
+                "Collaborate with QA and development teams to determine which test cases should be automated and which should remain manual.",
+                "Design and architect advanced, scalable automation frameworks that are modular, maintainable, and can accommodate complex test scenarios.",
+                "Implement advanced automation techniques, such as data-driven testing, keyword-driven testing, and behavior-driven development (BDD).",
+                "Lead the integration of automated tests into the CI/CD pipeline using Bamboo, ensuring seamless execution of tests on every code commit and providing rapid feedback to developers.",
+                "Continuously evaluate and improve the test automation process by identifying bottlenecks, inefficiencies, and areas for enhancement."
             ],
-            tools: ['JIRA', 'TestRail', 'Postman', 'MySQL', 'Chrome DevTools', 'Git', 'Confluence', 'Slack', 'Zoom'],
-            achievements: [
-                'Established QA processes that improved product quality by 60%',
-                'Created comprehensive test documentation library',
-                'Reduced customer-reported bugs by 45%',
-                'Successfully managed testing for 3 major product launches'
-            ]
+            tools: ['Selenium', 'Cypress', 'BDD', 'Bamboo', 'CI/CD', 'Java', 'Python'],
         },
-        'junior-qa': {
-            title: 'Junior QA Tester',
-            company: 'WebSolutions Inc',
-            duration: '2016 - 2017',
+        'wedaedalus-test-auto': {
+            title: 'Test Automation Engineer',
+            company: 'WeDaedalus LLC || Michigan, USA',
+            duration: 'August 2021 – June 2022',
             responsibilities: [
-                'Executed manual test cases for web applications',
-                'Performed exploratory testing and usability testing',
-                'Documented and tracked defects using bug tracking systems',
-                'Participated in test case reviews and test planning sessions',
-                'Learned testing fundamentals and industry best practices',
-                'Assisted senior QA engineers with regression testing',
-                'Validated fixes and performed smoke testing'
+                "Developed and maintained a comprehensive test automation strategy that outlined which test cases would be automated, leading to improved testing efficiency and reduced manual effort.",
+                "Designed and implemented an automation framework using tools such as Selenium WebDriver, KATALON studio and Cypress.",
+                "Created and executed automated test scripts for functional, regression, and performance testing, helping to identify defects early in the development process.",
+                "Integrated automated tests into the Jenkins CI/CD pipeline, enabling automated testing of every code commit and providing rapid feedback to the development team.",
+                "Mentored junior team members, providing guidance on test automation best practices, tools, and techniques."
             ],
-            tools: ['Bugzilla', 'TestLink', 'Excel', 'Chrome DevTools', 'Firefox', 'Internet Explorer'],
-            achievements: [
-                'Successfully completed 500+ test cases with 95% accuracy',
-                'Identified critical usability issues that improved user experience',
-                'Earned recognition for attention to detail and thoroughness',
-                'Completed QA certification and advanced to automation role'
-            ]
+            tools: ['Selenium WebDriver', 'Katalon Studio', 'Cypress', 'Jenkins', 'CI/CD'],
+        },
+        'wedaedalus-jr': {
+            title: 'Jr. QA Automation Engineer',
+            company: 'WeDaedalus LLC || Michigan, USA',
+            duration: 'March 2021 – July 2021',
+            responsibilities: [
+                "System Testing, State Transition Testing, Regression Testing, Sanity Testing, Smoke Testing.",
+                "Automation Testing with Cypress, KATALON.",
+                "Preparing and Executing Automation Test Cases, Test Plans.",
+                "Working with CI/CD Pipeline in Jenkins.",
+                "Participating in Agile Scrum Rituals.",
+                "Maintaining liaisons with Developers, Business Analysts."
+            ],
+            tools: ['Cypress', 'Katalon Studio', 'Jenkins', 'Agile/Scrum'],
+        },
+        'olivine-intern': {
+            title: 'Intern QA Engineer',
+            company: 'Olivine Limited || Dhaka, Bangladesh',
+            duration: 'September 2020 – December 2020',
+            responsibilities: [
+                "Saint Martin - SRS || SDD || User Guideline.",
+                "Learning Management System- SRS.",
+                "Manual testing on Saint Martin, Prottoyon web application.",
+                "Manual Testing on Joy Bangla, Circuit House Management System, Barta mobile application.",
+                "Client support"
+            ],
+            tools: ['Manual Testing', 'SRS', 'SDD', 'User Guideline'],
         }
     };
 
@@ -232,18 +234,13 @@ function initExperiencePopups() {
     const overlay = document.getElementById('popup-overlay');
     const closeBtn = document.getElementById('popup-close');
 
-    console.log('[DEBUG] initExperiencePopups: Found timeline items:', timelineItems.length);
-    console.log(`[DEBUG] Experience popup elements found: popup=${popup ? 'true' : 'false'}, overlay=${overlay ? 'true' : 'false'}, closeBtn=${closeBtn ? 'true' : 'false'}`);
-
-
     timelineItems.forEach(item => {
         item.addEventListener('click', () => {
-            console.log('[DEBUG] Experience item clicked.');
             const experienceKey = item.getAttribute('data-experience');
             const data = experienceData[experienceKey];
             
             if (data) {
-                const popupContent = popup.querySelector('#popup-content'); // Ensure correct selection
+                const popupContent = popup.querySelector('#popup-content');
                 if (popupContent) {
                     popupContent.innerHTML = `
                         <div class="popup-header">
@@ -265,23 +262,11 @@ function initExperiencePopups() {
                                 ${data.tools.map(tool => `<span class="tool-tag">${tool}</span>`).join('')}
                             </div>
                         </div>
-                        
-                        <div class="popup-section">
-                            <h4>🏆 Key Achievements</h4>
-                            <ul>
-                                ${data.achievements.map(achievement => `<li>${achievement}</li>`).join('')}
-                            </ul>
-                        </div>
                     `;
                     overlay.classList.add('show');
                     popup.classList.add('show');
                     document.body.style.overflow = 'hidden';
-                    console.log('[DEBUG] Experience Popup shown.');
-                } else {
-                    console.error('[ERROR] #popup-content element not found within #experience-popup.');
                 }
-            } else {
-                console.warn(`[WARNING] No experience data found for key: ${experienceKey}`);
             }
         });
     });
@@ -290,14 +275,18 @@ function initExperiencePopups() {
         overlay.classList.remove('show');
         popup.classList.remove('show');
         document.body.style.overflow = '';
-        console.log('[DEBUG] Experience Popup closed.');
     }
 
     if (closeBtn) {
         closeBtn.addEventListener('click', closeExperiencePopup);
     }
     if (overlay) {
-        overlay.addEventListener('click', closeExperiencePopup);
+        overlay.addEventListener('click', (e) => {
+            // Only close if the click is on the overlay itself, not the popup content
+            if (e.target === overlay) {
+                closeExperiencePopup();
+            }
+        });
     }
     
     document.addEventListener('keydown', (e) => {
@@ -503,60 +492,4 @@ function initLLMAssistant() {
             }
         } catch (error) {
             responseDisplay.innerHTML = '<p class="text-red-400">An error occurred while fetching the AI response. Please check your network connection or try again later.</p>';
-            console.error('[ERROR] Error calling Gemini API:', error);
-        } finally {
-            loadingIndicator.classList.remove('show');
-            console.log('[DEBUG] LLM loading indicator hidden.');
-        }
-    });
-}
-*/
-
-
-// Initialize everything when page loads
-document.addEventListener('DOMContentLoaded', () => {
-    console.log('[DEBUG] DOMContentLoaded fired. Initializing all features...');
-    createParticles();
-    initSmoothScrolling();
-    initScrollAnimations();
-    initSkillTagInteractions();
-    initFormHandler();
-    initExperiencePopups(); // Make sure this is called to initialize popups
-    initScrollToTopButton(); // Initialize the scroll-to-top button
-    initFloatingContact(); // Initialize the floating contact button and popup
-    // initLLMAssistant(); // Removed as per user request
-    
-    // Call spacing function on load and resize
-    adjustNavLinkSpacing();
-    handleNavbarScroll(); // Initial check on load
-    console.log('[DEBUG] All features initialized.');
-});
-
-// Add dynamic navigation highlighting and handle navbar scroll state
-window.addEventListener('scroll', () => {
-    const current = window.scrollY;
-    const sections = document.querySelectorAll('section');
-    const navLinks = document.querySelectorAll('nav a');
-
-    // Handle active navigation link highlighting
-    sections.forEach((section, index) => {
-        const sectionTop = section.offsetTop - 100; // Adjusted for fixed nav
-        const sectionBottom = sectionTop + section.offsetHeight;
-
-        if (current >= sectionTop && current < sectionBottom) {
-            navLinks.forEach(link => link.classList.remove('active'));
-            if (navLinks[index]) {
-                navLinks[index].classList.add('active');
-            }
-        }
-    });
-
-    // Handle navbar scrolled state
-    handleNavbarScroll();
-});
-
-// Recalculate spacing on window resize
-window.addEventListener('resize', () => {
-    console.log('[DEBUG] Window resized. Adjusting nav spacing.');
-    adjustNavLinkSpacing();
-});
+            conso

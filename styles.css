@@ -1,497 +1,981 @@
-// Create animated particles
-function createParticles() {
-    const container = document.getElementById('particles');
-    const particleCount = 50;
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background: linear-gradient(135deg, #0f0f23, #1a1a2e, #16213e);
+    color: #ffffff;
+    overflow-x: hidden;
+}
+
+/* Animated background particles */
+.bg-particles {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+    z-index: -1;
+}
+
+.particle {
+    position: absolute;
+    width: 2px;
+    height: 2px;
+    background: rgba(0, 255, 255, 0.3);
+    border-radius: 50%;
+    animation: float 6s ease-in-out infinite;
+}
+
+@keyframes float {
+    0%, 100% { transform: translateY(0px) rotate(0deg);
+    opacity: 0; }
+    50% { transform: translateY(-100px) rotate(180deg);
+    opacity: 1; }
+}
+
+/* Navigation */
+nav {
+    position: fixed;
+    top: 20px;
+    left: 50%;
+    transform: translateX(-50%);
+    background: rgba(255, 255, 255, 0.1);
+    backdrop-filter: blur(10px);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    border-radius: 50px;
+    padding: 12px 30px;
+    z-index: 100; /* Adjusted z-index */
+    transition: all 0.4s ease-in-out, background 0.2s ease; /* Enhanced transition */
+}
+
+nav:hover {
+    background: rgba(255, 255, 255, 0.15);
+    transform: translateX(-50%) translateY(-2px);
+    box-shadow: 0 10px 30px rgba(0, 255, 255, 0.2);
+}
+
+/* New class for when nav is scrolled (can be triggered by JS) */
+nav.scrolled {
+    top: 0px; /* Moves to the very top */
+    padding: 8px 20px; /* Reduced padding */
+    border-radius: 0 0 15px 15px; /* Rounded bottom corners only */
+    background: rgba(15, 15, 35, 0.9); /* Slightly darker, less opaque background */
+    backdrop-filter: blur(12px); /* Slightly reduced blur for a softer look */
+    box-shadow: 0 3px 15px rgba(0, 0, 0, 0.4); /* Softer, less aggressive shadow */
+    border-color: rgba(255, 255, 255, 0.1); /* Slightly less prominent border */
+}
+
+nav ul {
+    list-style: none;
+    display: flex;
+    gap: 30px;
+}
+
+nav a {
+    color: #ffffff;
+    text-decoration: none;
+    font-weight: 500;
+    transition: all 0.3s ease, background 0.3s ease, color 0.3s ease; /* Add background to transition */
+    position: relative;
+    display: inline-block; /* Essential for padding and background to work as expected */
+    padding: 8px 15px; /* Increased padding for better pill shape, consistent with active state */
+    border-radius: 50px; /* Make it rounded like a pill even on hover */
+    overflow: hidden; /* Important for ::before pseudo-element */
+    z-index: 1; /* To ensure ::before is behind */
+}
+
+nav a:hover {
+    color: #00ffff;
+    transform: translateY(-2px); /* Slight lift on hover */
+    background: rgba(0, 255, 255, 0.05); /* Lighter background on hover */
+}
+
+nav a::after {
+    content: '';
+    position: absolute;
+    top: 0; /* Changed from bottom: -5px to cover the full height */
+    left: 50%;
+    transform: translateX(-50%);
+    width: 0;
+    height: 100%; /* Cover the full height of the link */
+    background: linear-gradient(90deg, #00ffff, #ff00ff);
+    transition: width 0.3s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+    z-index: -1; /* Place behind the text */
+}
+
+nav a:hover::after {
+    width: 100%;
+}
+
+/* Enhanced active state for navigation links */
+nav a.active {
+    color: #000000; /* Change text color for active pill to contrast with background */
+    font-weight: 700;
+    background: linear-gradient(135deg, #00ffff, #ff00ff); /* Solid, vibrant gradient for active */
+    box-shadow: 0 0 15px rgba(0, 255, 255, 0.6); /* Add glow to active pill */
+    transform: translateY(0); /* Ensure it's not lifted when active */
+}
+
+nav a.active::after {
+    display: none; /* Hide the underline for active state, as the background is the primary indicator */
+}
+
+
+/* Hero Section */
+.hero {
+    height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    position: relative;
+}
+
+.hero-content {
+    max-width: 800px;
+    animation: fadeInUp 1s ease-out;
+}
+
+.hero h1 {
+    font-size: 4rem;
+    font-weight: 800;
+    margin-bottom: 20px;
+    background: linear-gradient(135deg, #00ffff, #ff00ff, #ffff00);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    animation: pulse 2s ease-in-out infinite alternate;
+}
+
+.hero .subtitle {
+    font-size: 1.5rem;
+    color: #b3b3b3;
+    margin-bottom: 30px;
+    font-weight: 300;
+}
+
+.hero .description {
+    font-size: 1.1rem;
+    line-height: 1.8;
+    color: #cccccc;
+    margin-bottom: 40px;
+}
+
+.cta-buttons {
+    display: flex;
+    gap: 20px;
+    justify-content: center;
+    flex-wrap: wrap;
+}
+
+.btn {
+    padding: 15px 30px;
+    border: none;
+    border-radius: 50px;
+    font-size: 1rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    text-decoration: none;
+    display: inline-block;
+    position: relative;
+    overflow: hidden;
+}
+
+.btn-primary {
+    background: linear-gradient(135deg, #00ffff, #0099cc);
+    color: #ffffff;
+}
+
+.btn-secondary {
+    background: transparent;
+    color: #ffffff;
+    border: 2px solid #00ffff;
+}
+
+.btn:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 10px 30px rgba(0, 255, 255, 0.3);
+}
+
+.btn::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+    transition: left 0.5s;
+}
+
+.btn:hover::before {
+    left: 100%;
+}
+
+/* Sections */
+section {
+    padding: 100px 50px;
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+.section-title {
+    font-size: 3rem;
+    font-weight: 700;
+    text-align: center;
+    margin-bottom: 60px;
+    background: linear-gradient(135deg, #ffffff, #00ffff);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+}
+
+/* Skills Grid */
+.skills-container {
+    max-width: 900px;
+    margin: 50px auto;
+}
+
+.skill-category {
+    margin-bottom: 40px;
+}
+
+.category-title {
+    font-size: 1.3rem;
+    color: #00ffff;
+    margin-bottom: 20px;
+    font-weight: 600;
+    text-align: center;
+}
+
+.skills-grid {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 15px;
+    justify-content: center;
+}
+
+.skill-tag {
+    background: rgba(0, 255, 255, 0.1);
+    border: 1px solid rgba(0, 255, 255, 0.3);
+    border-radius: 25px;
+    padding: 12px 24px;
+    color: #ffffff;
+    font-size: 0.9rem;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    position: relative;
+    overflow: hidden;
+}
+
+.skill-tag::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(0, 255, 255, 0.2), transparent);
+    transition: left 0.5s ease;
+}
+
+.skill-tag:hover {
+    background: rgba(0, 255, 255, 0.2);
+    border-color: #00ffff;
+    color: #00ffff;
+    transform: translateY(-3px) scale(1.05);
+    box-shadow: 0 8px 25px rgba(0, 255, 255, 0.3);
+}
+
+.skill-tag:hover::before {
+    left: 100%;
+}
+
+.skill-tag.active {
+    background: linear-gradient(135deg, #00ffff, #0099cc);
+    border-color: #00ffff;
+    color: #000000;
+    font-weight: 600;
+}
+
+/* Experience Timeline */
+.timeline {
+    position: relative;
+    margin: 50px 0;
+}
+
+.timeline::before {
+    content: '';
+    position: absolute;
+    left: 50%;
+    top: 0;
+    width: 2px;
+    height: 100%;
+    background: linear-gradient(180deg, #00ffff, #ff00ff);
+    transform: translateX(-50%);
+}
+
+.timeline-item {
+    display: flex;
+    justify-content: flex-end;
+    padding: 30px 0;
+    position: relative;
+    width: 50%;
+}
+
+.timeline-item:nth-child(odd) {
+    align-self: flex-end;
+    justify-content: flex-start;
+    left: 50%;
+}
+
+.timeline-content {
+    background: rgba(255, 255, 255, 0.05);
+    backdrop-filter: blur(10px);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 15px;
+    padding: 25px;
+    margin: 0 30px;
+    position: relative;
+    transition: all 0.3s ease;
+}
+
+.timeline-content:hover {
+    transform: scale(1.05);
+    background: rgba(255, 255, 255, 0.1);
+    cursor: pointer;
+}
+
+/* Experience Popup */
+.experience-popup {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    /* Start slightly higher and scaled down for a "pop-up" effect */
+    transform: translate(-50%, -40%) scale(0);
+    background: rgba(20, 20, 40, 0.95);
+    backdrop-filter: blur(20px);
+    border: 2px solid rgba(0, 255, 255, 0.3);
+    border-radius: 30px; /* Increased border-radius for more rounded edges */
+    padding: 40px;
+    max-width: 600px;
+    width: 90%;
+    max-height: 80vh;
+    overflow-y: auto;
+    z-index: 2001; /* Adjusted z-index */
+    /* Smoother, bouncier transition */
+    transition: all 0.5s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+    opacity: 0;
+    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5);
+}
+
+.experience-popup.show {
+    /* End at center with full scale and a glow */
+    transform: translate(-50%, -50%) scale(1);
+    opacity: 1;
+    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.7), 0 0 40px rgba(0, 255, 255, 0.6);
+}
+
+/* Scrollbar styles for experience popup */
+.experience-popup::-webkit-scrollbar {
+    width: 10px; /* Width of the scrollbar */
+}
+
+.experience-popup::-webkit-scrollbar-track {
+    background: rgba(255, 255, 255, 0.05); /* Track background */
+    border-radius: 10px; /* Rounded track */
+}
+
+.experience-popup::-webkit-scrollbar-thumb {
+    background: linear-gradient(135deg, #00ffff, #ff00ff); /* Thumb gradient */
+    border-radius: 10px; /* Rounded thumb */
+    border: 2px solid rgba(255, 255, 255, 0.1); /* Border around thumb */
+}
+
+.experience-popup::-webkit-scrollbar-thumb:hover {
+    background: linear-gradient(135deg, #00dcdc, #e000e0); /* Lighter gradient on hover */
+}
+
+
+.popup-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.7);
+    backdrop-filter: blur(0px); /* Initial blur for transition */
+    z-index: 2000; /* Adjusted z-index */
+    opacity: 0;
+    visibility: hidden;
+    /* Transition for opacity and backdrop filter */
+    transition: opacity 0.4s ease, backdrop-filter 0.4s ease;
+}
+
+.popup-overlay.show {
+    opacity: 1;
+    visibility: visible;
+    backdrop-filter: blur(10px); /* Apply blur when shown */
+}
+
+.popup-close {
+    position: absolute;
+    top: 15px;
+    right: 20px;
+    background: none;
+    border: none;
+    color: #ffffff;
+    font-size: 2rem;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    z-index: 2002; /* Adjusted z-index */
+}
+
+.popup-close:hover {
+    color: #00ffff;
+    transform: rotate(90deg) scale(1.2); /* Rotate and slightly scale */
+    text-shadow: 0 0 10px rgba(0, 255, 255, 0.5); /* Add glow to the 'x' */
+}
+
+.popup-header {
+    margin-bottom: 30px;
+    border-bottom: 1px solid rgba(0, 255, 255, 0.3);
+    padding-bottom: 20px;
+}
+
+.popup-title {
+    font-size: 1.8rem;
+    color: #00ffff;
+    margin-bottom: 10px;
+}
+
+.popup-company {
+    font-size: 1.2rem;
+    color: #ff00ff;
+    font-weight: 600;
+    margin-bottom: 5px;
+}
+
+.popup-duration {
+    color: #cccccc;
+    font-size: 1rem;
+}
+
+.popup-section {
+    margin: 25px 0;
+}
+
+.popup-section h4 {
+    color: #00ffff;
+    font-size: 1.1rem;
+    margin-bottom: 15px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.popup-section ul {
+    list-style: none;
+    padding-left: 0;
+}
+
+.popup-section li {
+    margin: 8px 0;
+    padding-left: 20px;
+    position: relative;
+    color: #cccccc;
+    line-height: 1.6;
+}
+
+.popup-section li::before {
+    content: '▶';
+    position: absolute;
+    left: 0;
+    color: #00ffff;
+}
+
+.tools-grid {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    margin-top: 10px;
+}
+
+.tool-tag {
+    background: rgba(0, 255, 255, 0.1);
+    border: 1px solid rgba(0, 255, 255, 0.3);
+    border-radius: 15px;
+    padding: 5px 12px;
+    font-size: 0.85rem;
+    color: #00ffff;
+}
+
+.timeline-content h3 {
+    color: #00ffff;
+    margin-bottom: 10px;
+}
+
+.timeline-content .company {
+    color: #ff00ff;
+    font-weight: 600;
+    margin-bottom: 15px;
+}
+
+/* Contact Section (Moved outside AI Assistant removal for context) */
+.contact-form {
+    background: rgba(255, 255, 255, 0.05);
+    backdrop-filter: blur(10px);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 20px;
+    padding: 40px;
+    max-width: 600px;
+    margin: 0 auto;
+}
+
+.form-group {
+    margin-bottom: 25px;
+}
+
+.form-group label {
+    display: block;
+    margin-bottom: 8px;
+    color: #00ffff;
+    font-weight: 500;
+}
+
+.form-group input,
+.form-group textarea {
+    width: 100%;
+    padding: 15px;
+    background: rgba(255, 255, 255, 0.1);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    border-radius: 10px;
+    color: #ffffff;
+    font-size: 1rem;
+    transition: all 0.3s ease;
+}
+
+.form-group input:focus,
+.form-group textarea:focus {
+    outline: none;
+    border-color: #00ffff;
+    box-shadow: 0 0 20px rgba(0, 255, 255, 0.2);
+}
+
+.form-group textarea {
+    height: 120px;
+    resize: vertical;
+}
+
+/* Styles for contact info and social links (now in popup) */
+.contact-info-container {
+    text-align: center; /* Ensures content within is centered by default */
+    margin-top: 20px; /* Reduced margin for compact popup */
+    color: #cccccc;
+}
+
+.contact-detail-group,
+.social-links-group {
+    display: flex;
+    flex-direction: column; /* Stack items vertically */
+    gap: 10px; /* Reduce gap when stacked */
+    margin-bottom: 15px;
+    align-items: flex-start; /* Align items to the start */
+    padding: 0 20px; /* Add some horizontal padding inside popup */
+}
+
+.contact-detail-item,
+.social-link {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    color: #cccccc;
+    text-decoration: none;
+    transition: all 0.3s ease;
+    width: 100%; /* Take full width of its container */
+}
+
+.contact-detail-item:hover,
+.social-link:hover {
+    color: #00ffff; /* Highlight on hover */
+    text-shadow: 0 0 8px rgba(0, 255, 255, 0.7); /* Subtle glow effect */
+    /* Removed transform: translateX(5px); */
+}
+
+.contact-detail-item svg,
+.social-link svg {
+    flex-shrink: 0; /* Prevent icon from shrinking */
+}
+
+/* Floating Contact Button (Pill) */
+.floating-contact-btn {
+    position: fixed;
+    bottom: 25px;
+    left: 25px;
+    background: linear-gradient(135deg, #00ffff, #ff00ff);
+    color: #0f0f23;
+    border: none;
+    border-radius: 50px;
+    width: 50px; /* Make it a fixed circular width */
+    height: 50px; /* Make it a fixed circular height */
+    padding: 0; /* Remove padding as width/height define size */
+    font-size: 1rem; /* Adjust font size if text is ever visible */
+    font-weight: 600;
+    cursor: pointer;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.4);
+    animation: pulse-glow 3s infinite ease-in-out; /* Apply pulse animation */
+    opacity: 1;
+    transition: all 0.3s ease;
+    z-index: 1001;
     
-    for (let i = 0; i < particleCount; i++) {
-        const particle = document.createElement('div');
-        particle.className = 'particle';
-        particle.style.left = Math.random() * 100 + '%';
-        particle.style.top = Math.random() * 100 + '%';
-        particle.style.animationDelay = Math.random() * 6 + 's';
-        particle.style.animationDuration = (Math.random() * 4 + 4) + 's';
-        container.appendChild(particle);
-    }
+    display: flex; /* Center content horizontally and vertically */
+    align-items: center;
+    justify-content: center;
+    /* Removed gap: 8px; for icon-only state. Gap only needed if text is visible. */
+    text-decoration: none;
+    overflow: hidden; /* Important for icon transitions */
 }
 
-// Smooth scrolling for navigation links
-function initSmoothScrolling() {
-    const links = document.querySelectorAll('nav a[href^="#"]');
-    console.log('[DEBUG] initSmoothScrolling: Found links:', links.length);
-    links.forEach(link => {
-        link.addEventListener('click', (e) => {
-            e.preventDefault();
-            const targetId = link.getAttribute('href');
-            const target = document.querySelector(targetId);
-            console.log(`[DEBUG] Smooth scroll click: Link clicked: ${targetId}, Target found:`, target ? 'true' : 'false');
-            if (target) {
-                target.scrollIntoView({
-                    behavior: 'smooth',
-                    block: 'start'
-                });
-            } else {
-                console.warn(`[WARNING] Smooth scroll: Target element not found for ID: ${targetId}`);
-            }
-        });
-    });
+.floating-contact-btn .btn-text {
+    /* Hide text by default */
+    opacity: 0;
+    width: 0; /* Collapse text space */
+    transition: opacity 0.3s ease, width 0.3s ease;
+    white-space: nowrap; /* Prevent text wrapping */
+    pointer-events: none; /* Disable interaction with hidden text */
 }
 
-// Add scroll-triggered animations
-function initScrollAnimations() {
-    const observer = new IntersectionObserver((entries) => {
-        entries.forEach(entry => {
-            if (entry.isIntersecting) {
-                entry.target.style.opacity = '1';
-                entry.target.style.transform = 'translateY(0)';
-                
-                // Animate skill tags with stagger effect
-                if (entry.target.classList.contains('skill-category')) {
-                    const tags = entry.target.querySelectorAll('.skill-tag');
-                    tags.forEach((tag, index) => {
-                        setTimeout(() => {
-                            tag.style.opacity = '1';
-                            tag.style.transform = 'translateY(0)';
-                        }, index * 100);
-                    });
-                }
-            }
-        });
-    }, { threshold: 0.1 });
-    document.querySelectorAll('.skill-category, .timeline-item').forEach(el => {
-        el.style.opacity = '0';
-        el.style.transform = 'translateY(30px)';
-        el.style.transition = 'all 0.6s ease';
-        observer.observe(el);
-        
-        // Pre-hide skill tags for animation
-        if (el.classList.contains('skill-category')) {
-            el.querySelectorAll('.skill-tag').forEach(tag => {
-                tag.style.opacity = '0';
-                tag.style.transform = 'translateY(20px)';
-                tag.style.transition = 'all 0.4s ease';
-            });
-        }
-    });
+.floating-contact-btn .btn-icon {
+    width: 24px; /* Default size for icons */
+    height: 24px;
+    transition: opacity 0.3s ease, transform 0.3s ease;
+    flex-shrink: 0;
+    stroke: currentColor; /* Ensure icon color matches text */
+    /* Position icons absolutely to allow overlaying and transitions, centered */
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%) rotate(0deg); /* Centered and not rotated initially */
 }
 
-// Form submission handler
-function initFormHandler() {
-    const form = document.querySelector('.contact-form form'); // Select the form specifically
-    console.log('[DEBUG] initFormHandler: Form found:', form ? 'true' : 'false');
+/* Initially show the initial icon and hide the close icon */
+.floating-contact-btn .initial-icon {
+    opacity: 1;
+    transform: translate(-50%, -50%) rotate(0deg);
+}
 
-    if (form) {
-        form.addEventListener('submit', async (e) => { // Made the function async
-            e.preventDefault();
-            console.log('[DEBUG] Form submission initiated.');
+.floating-contact-btn .close-icon {
+    opacity: 0;
+    transform: translate(-50%, -50%) rotate(-90deg); /* Start rotated off-screen */
+}
 
-            const button = form.querySelector('button[type="submit"]');
-            const originalText = button.textContent;
-            
-            button.textContent = 'Sending...';
-            button.disabled = true;
+/* On Hover for the button */
+.floating-contact-btn:hover {
+    transform: translateY(-3px) scale(1.05);
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.6), 0 0 25px rgba(0, 255, 255, 0.5);
+    background: linear-gradient(135deg, #00dcdc, #e000e0);
+    animation-play-state: paused; /* Pause glow animation on hover */
+}
 
-            const formData = new FormData(form);
-            const formEndpoint = form.action;
+/* When popup is open */
+.floating-contact-btn.popup-open {
+    transform: translateY(0) scale(1); /* Reset any hover transform */
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.6), 0 0 30px rgba(0, 255, 255, 0.7); /* Stronger fixed glow */
+    background: linear-gradient(135deg, #00dcdc, #e000e0); /* Active background */
+    animation-play-state: paused; /* Pause glow animation when open */
+    /* Maintain circle dimensions explicitly */
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+}
 
-            try {
-                const response = await fetch(formEndpoint, {
-                    method: 'POST',
-                    body: formData,
-                    headers: {
-                        'Accept': 'application/json' // Essential for Formspree to return JSON
-                    }
-                });
+.floating-contact-btn.popup-open .btn-text {
+    opacity: 0;
+    width: 0;
+    display: none; /* Ensure text is fully hidden when popup is open */
+}
 
-                if (response.ok) {
-                    button.textContent = 'Message Sent!';
-                    button.style.background = 'linear-gradient(135deg, #00ff00, #008800)';
-                    console.log('[DEBUG] Message sent successfully!');
-                    form.reset(); // Clear the form
-                } else {
-                    const data = await response.json();
-                    if (Object.hasOwnProperty.call(data, 'errors')) {
-                        console.error('[ERROR] Formspree errors:', data["errors"].map(error => error["message"]).join(", "));
-                        button.textContent = 'Error!';
-                        button.style.background = 'linear-gradient(135deg, #ff0000, #cc0000)';
-                    } else {
-                        console.error('[ERROR] Form submission failed:', response.statusText);
-                        button.textContent = 'Error!';
-                        button.style.background = 'linear-gradient(135deg, #ff0000, #cc0000)';
-                    }
-                }
-            } catch (error) {
-                console.error('[ERROR] Network or submission error:', error);
-                button.textContent = 'Error!';
-                button.style.background = 'linear-gradient(135deg, #ff0000, #cc0000)';
-            } finally {
-                // Revert button text and enable after a short delay
-                setTimeout(() => {
-                    button.textContent = originalText;
-                    button.disabled = false;
-                    button.style.background = ''; // Reset background to original CSS
-                }, 2000);
-            }
-        });
-    } else {
-        console.warn('[WARNING] initFormHandler: Contact form not found.');
-    }
+.floating-contact-btn.popup-open .initial-icon {
+    opacity: 0;
+    transform: translate(-50%, -50%) rotate(90deg); /* Rotate out */
+}
+
+.floating-contact-btn.popup-open .close-icon {
+    opacity: 1;
+    transform: translate(-50%, -50%) rotate(0deg); /* Rotate in */
 }
 
 
-// Experience popup functionality
-function initExperiencePopups() {
-    const experienceData = {
-        'tensis-sr-qa': {
-            title: 'Sr. Quality Assurance Engineer',
-            company: 'Tensis || Ultimo, Sydney',
-            duration: 'October 2024 – Present',
-            responsibilities: [
-                "Developed and implemented comprehensive QA strategies and roadmaps aligned with Tensis's AI-powered automation solutions and company goals.",
-                "Established and maintaining rigorous quality standards, metrics, and KPIs, focusing on data integrity, security, accuracy, and regulatory compliance.",
-                "Proactively identify and assess potential quality risks, developing strategies for effective mitigation.",
-                "Established robust defect tracking, reporting, and resolution processes, ensuring clear communication and timely fixes.",
-                "Lead the adoption and expansion of test automation frameworks and tools, maximizing automation coverage for efficiency and reliability, especially for data-driven scenarios.",
-                "Implementation of performance, load, and security testing to ensure scalability, responsiveness, and resilience, particularly for critical data.",
-                "Ensure thorough testing of APIs and integrations with third-party systems."
-            ],
-            tools: ['JIRA', 'TestRail', 'Selenium', 'Cypress', 'Playwright', 'Postman', 'JMeter', 'CI/CD', 'SQL'],
-        },
-        'pencs-qa': {
-            title: 'Quality Assurance Engineer',
-            company: 'Pen CS || Leichhardt, Sydney',
-            duration: 'November 2023 – October 2024',
-            responsibilities: [
-                "Developing comprehensive test plans, scenario matrix and test cases to ensure thorough test coverage.",
-                "Executing test cases, identified defects, and reported them in a clear and concise manner.",
-                "Collaborating with developers and business analysts to understand software requirements and ensure testing objectives were met.",
-                "Documenting test results, generated defect reports, and maintained accurate and organized test documentation.",
-                "Conducting root cause analysis for defects, providing recommendations for improvements.",
-                "Working closely with cross-functional teams to ensure alignment of testing efforts and project deliverables.",
-                "Actively participated in team meetings, providing insights and suggestions to enhance overall software quality.",
-                "Written automation script using Test Complete for the functional test cases of desktop application.",
-                "Maintaining knowledge of industry best practices and emerging technologies in software testing."
-            ],
-            tools: ['Test Complete', 'JIRA', 'SQL', 'Agile'],
-        },
-        'wedaedalus-mid': {
-            title: 'Test Automation Engineer (Mid-Level)',
-            company: 'WeDaedalus LLC || Michigan, USA',
-            duration: 'July 2022 – October 2023',
-            responsibilities: [
-                "Define and drive the overall test automation strategy, considering the application's architecture, complexity, and testing goals.",
-                "Collaborate with QA and development teams to determine which test cases should be automated and which should remain manual.",
-                "Design and architect advanced, scalable automation frameworks that are modular, maintainable, and can accommodate complex test scenarios.",
-                "Implement advanced automation techniques, such as data-driven testing, keyword-driven testing, and behavior-driven development (BDD).",
-                "Lead the integration of automated tests into the CI/CD pipeline using Bamboo, ensuring seamless execution of tests on every code commit and providing rapid feedback to developers.",
-                "Continuously evaluate and improve the test automation process by identifying bottlenecks, inefficiencies, and areas for enhancement."
-            ],
-            tools: ['Selenium', 'Cypress', 'BDD', 'Bamboo', 'CI/CD', 'Java', 'Python'],
-        },
-        'wedaedalus-test-auto': {
-            title: 'Test Automation Engineer',
-            company: 'WeDaedalus LLC || Michigan, USA',
-            duration: 'August 2021 – June 2022',
-            responsibilities: [
-                "Developed and maintained a comprehensive test automation strategy that outlined which test cases would be automated, leading to improved testing efficiency and reduced manual effort.",
-                "Designed and implemented an automation framework using tools such as Selenium WebDriver, KATALON studio and Cypress.",
-                "Created and executed automated test scripts for functional, regression, and performance testing, helping to identify defects early in the development process.",
-                "Integrated automated tests into the Jenkins CI/CD pipeline, enabling automated testing of every code commit and providing rapid feedback to the development team.",
-                "Mentored junior team members, providing guidance on test automation best practices, tools, and techniques."
-            ],
-            tools: ['Selenium WebDriver', 'Katalon Studio', 'Cypress', 'Jenkins', 'CI/CD'],
-        },
-        'wedaedalus-jr': {
-            title: 'Jr. QA Automation Engineer',
-            company: 'WeDaedalus LLC || Michigan, USA',
-            duration: 'March 2021 – July 2021',
-            responsibilities: [
-                "System Testing, State Transition Testing, Regression Testing, Sanity Testing, Smoke Testing.",
-                "Automation Testing with Cypress, KATALON.",
-                "Preparing and Executing Automation Test Cases, Test Plans.",
-                "Working with CI/CD Pipeline in Jenkins.",
-                "Participating in Agile Scrum Rituals.",
-                "Maintaining liaisons with Developers, Business Analysts."
-            ],
-            tools: ['Cypress', 'Katalon Studio', 'Jenkins', 'Agile/Scrum'],
-        },
-        'olivine-intern': {
-            title: 'Intern QA Engineer',
-            company: 'Olivine Limited || Dhaka, Bangladesh',
-            duration: 'September 2020 – December 2020',
-            responsibilities: [
-                "Saint Martin - SRS || SDD || User Guideline.",
-                "Learning Management System- SRS.",
-                "Manual testing on Saint Martin, Prottoyon web application.",
-                "Manual Testing on Joy Bangla, Circuit House Management System, Barta mobile application.",
-                "Client support"
-            ],
-            tools: ['Manual Testing', 'SRS', 'SDD', 'User Guideline'],
-        }
-    };
+/* Define the pulsing glow animation */
+@keyframes pulse-glow {
+    0% { box-shadow: 0 5px 15px rgba(0, 0, 0, 0.4), 0 0 0px rgba(0, 255, 255, 0); }
+    50% { box-shadow: 0 5px 20px rgba(0, 0, 0, 0.6), 0 0 25px rgba(0, 255, 255, 0.5); }
+    100% { box-shadow: 0 5px 15px rgba(0, 0, 0, 0.4), 0 0 0px rgba(0, 255, 255, 0); }
+}
 
-    const timelineItems = document.querySelectorAll('.timeline-content[data-experience]');
-    const popup = document.getElementById('experience-popup');
-    const overlay = document.getElementById('popup-overlay');
-    const closeBtn = document.getElementById('popup-close');
 
-    timelineItems.forEach(item => {
-        item.addEventListener('click', () => {
-            const experienceKey = item.getAttribute('data-experience');
-            const data = experienceData[experienceKey];
-            
-            if (data) {
-                const popupContent = popup.querySelector('#popup-content');
-                if (popupContent) {
-                    popupContent.innerHTML = `
-                        <div class="popup-header">
-                            <div class="popup-title">${data.title}</div>
-                            <div class="popup-company">${data.company}</div>
-                            <div class="popup-duration">${data.duration}</div>
-                        </div>
-                        
-                        <div class="popup-section">
-                            <h4>🎯 Key Responsibilities</h4>
-                            <ul>
-                                ${data.responsibilities.map(resp => `<li>${resp}</li>`).join('')}
-                            </ul>
-                        </div>
-                        
-                        <div class="popup-section">
-                            <h4>🛠️ Tools & Technologies</h4>
-                            <div class="tools-grid">
-                                ${data.tools.map(tool => `<span class="tool-tag">${tool}</span>`).join('')}
-                            </div>
-                        </div>
-                    `;
-                    overlay.classList.add('show');
-                    popup.classList.add('show');
-                    document.body.style.overflow = 'hidden';
-                }
-            }
-        });
-    });
+/* Contact Options Popup Styles */
+.contact-options-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.7);
+    backdrop-filter: blur(0px); /* Initial blur for transition */
+    z-index: 2000; /* Adjusted z-index */
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity 0.4s ease, backdrop-filter 0.4s ease;
+}
 
-    function closeExperiencePopup() {
-        overlay.classList.remove('show');
-        popup.classList.remove('show');
-        document.body.style.overflow = '';
-    }
+.contact-options-overlay.show {
+    opacity: 1;
+    visibility: visible;
+    backdrop-filter: blur(10px); /* Apply blur when shown */
+}
 
-    if (closeBtn) {
-        closeBtn.addEventListener('click', closeExperiencePopup);
-    }
-    if (overlay) {
-        overlay.addEventListener('click', (e) => {
-            // Only close if the click is on the overlay itself, not the popup content
-            if (e.target === overlay) {
-                closeExperiencePopup();
-            }
-        });
+.contact-options-popup {
+    position: fixed;
+    bottom: -100%; /* Start off-screen at the bottom */
+    left: 25px; /* Align with the floating button */
+    background: rgba(20, 20, 40, 0.95);
+    backdrop-filter: blur(20px);
+    border: 2px solid rgba(0, 255, 255, 0.3);
+    border-radius: 30px; /* Increased for more rounded edges */
+    padding: 30px; /* Slightly reduced padding */
+    max-width: 300px; /* Constrain width */
+    width: calc(100% - 50px); /* Fill space on small screens, minus button offset */
+    max-height: 70vh;
+    overflow-y: auto;
+    z-index: 2001; /* Adjusted z-index */
+    transition: all 0.4s cubic-bezier(0.68, -0.55, 0.265, 1.55); /* Bouncy slide-up transition */
+    opacity: 0;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+    display: flex; /* Use flexbox for internal layout */
+    flex-direction: column;
+}
+
+.contact-options-popup.show {
+    bottom: 90px; /* Slide up to be above the button (50px btn height + 25px bottom offset + 15px gap) */
+    opacity: 1;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.7), 0 0 30px rgba(0, 255, 255, 0.6); /* Add glow */
+}
+
+.contact-options-popup .popup-header {
+    text-align: center;
+    margin-bottom: 20px;
+    padding-bottom: 15px;
+    border-bottom: 1px solid rgba(0, 255, 255, 0.2);
+}
+
+.contact-options-popup .popup-title {
+    font-size: 1.5rem;
+    color: #00ffff;
+}
+
+.contact-options-popup .contact-options-close {
+    position: absolute;
+    top: 10px;
+    right: 15px;
+    font-size: 1.8rem;
+    background: none;
+    border: none;
+    color: #ffffff;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    z-index: 2002; /* Adjusted z-index */
+}
+
+.contact-options-popup .contact-options-close:hover {
+    color: #ff00ff; /* Change color on hover */
+    transform: rotate(90deg);
+}
+
+/* Scroll-to-top Button Styles */
+.scroll-to-top-btn {
+    position: fixed;
+    bottom: 25px; /* Distance from bottom */
+    right: 25px; /* Distance from right */
+    background: linear-gradient(135deg, #00ffff, #ff00ff); /* Vibrant gradient background */
+    color: #0f0f23; /* Dark text/icon color for contrast */
+    border: none;
+    border-radius: 50%; /* Perfect circle */
+    width: 50px;
+    height: 50px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.5rem;
+    cursor: pointer;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.4); /* Soft shadow */
+    opacity: 0; /* Initially hidden */
+    visibility: hidden; /* Hidden for accessibility */
+    transform: translateY(20px); /* Start slightly lower */
+    transition: opacity 0.3s ease-out, transform 0.3s ease-out, background 0.3s ease;
+    z-index: 1000; /* Adjusted z-index */
+}
+
+.scroll-to-top-btn.show {
+    opacity: 1; /* Fade in */
+    visibility: visible;
+    transform: translateY(0); /* Slide up to position */
+}
+
+.scroll-to-top-btn:hover {
+    background: linear-gradient(135deg, #00dcdc, #e000e0); /* Slightly lighter gradient on hover */
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.6), 0 0 20px rgba(0, 255, 255, 0.4); /* Enhanced shadow and glow */
+    transform: translateY(-3px); /* Slight lift on hover */
+}
+
+.scroll-to-top-btn svg {
+    stroke: currentColor; /* Inherit color from parent button */
+    stroke-width: 2;
+    transition: transform 0.3s ease;
+}
+
+.scroll-to-top-btn:hover svg {
+    transform: translateY(-2px); /* Subtle lift for the arrow icon */
+}
+
+
+/* Hamburger Menu Icon (Desktop Hidden, Mobile Visible) - now removed in HTML */
+.hamburger-menu-icon {
+    display: none; /* Hidden by default on desktop */
+    /* All other hamburger icon styles are now effectively unused as the element is removed from HTML */
+}
+
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    .hero h1 {
+        font-size: 2.5rem;
     }
     
-    document.addEventListener('keydown', (e) => {
-        if (e.key === 'Escape' && popup.classList.contains('show')) {
-            closeExperiencePopup();
-        }
-    });
-}
-
-
-function initSkillTagInteractions() {
-    const skillTags = document.querySelectorAll('.skill-tag');
-    console.log('[DEBUG] initSkillTagInteractions: Found skill tags:', skillTags.length);
+    .hero .subtitle {
+        font-size: 1.2rem;
+    }
     
-    skillTags.forEach(tag => {
-        tag.addEventListener('click', () => {
-            // Toggle active state
-            tag.classList.toggle('active');
-            console.log(`[DEBUG] Skill tag clicked: ${tag.textContent}, Active status: ${tag.classList.contains('active')}`);
-            
-            // Add a little bounce effect
-            tag.style.transform = 'scale(0.95)';
-            setTimeout(() => {
-                tag.style.transform = '';
-            }, 150);
-        });
-        
-        // Add random glow effect on hover
-        tag.addEventListener('mouseenter', () => {
-            const glowIntensity = Math.random() * 0.5 + 0.3;
-            tag.style.boxShadow = `0 8px 25px rgba(0, 255, 255, ${glowIntensity})`;
-        });
-        
-        tag.addEventListener('mouseleave', () => {
-            if (!tag.classList.contains('active')) {
-                tag.style.boxShadow = '';
-            }
-        });
-    });
-}
-
-// Function to adjust navigation link spacing (for desktop)
-function adjustNavLinkSpacing() {
-    const navUl = document.querySelector('nav ul');
-    if (!navUl) return;
-
-    // Only apply JavaScript spacing on desktop screens
-    if (window.innerWidth > 768) {
-        navUl.style.justifyContent = 'flex-start'; // Or 'space-around', depending on your desktop design
-        navUl.style.gap = '30px'; // Reapply original desktop gap
-        navUl.style.marginRight = ''; // Clear any mobile-specific margins
-        console.log('[DEBUG] adjustNavLinkSpacing: Applied desktop styles.');
-    } else {
-        // Reset styles for mobile, as CSS takes over for the mobile menu
-        navUl.style.justifyContent = '';
-        navUl.style.gap = '';
-        navUl.style.marginRight = '';
-        console.log('[DEBUG] adjustNavLinkSpacing: Reset styles for mobile.');
+    section {
+        padding: 60px 20px;
     }
-}
-
-// Function to handle the navbar's "scrolled" state
-function handleNavbarScroll() {
-    const navbar = document.querySelector('nav');
-    if (navbar) {
-        if (window.scrollY > 50) { // Adjust this value as needed
-            navbar.classList.add('scrolled');
-        } else {
-            navbar.classList.remove('scrolled');
-        }
-    }
-}
-
-// Function to initialize the scroll-to-top button
-function initScrollToTopButton() {
-    const scrollToTopBtn = document.getElementById('scrollToTopBtn');
-    console.log('[DEBUG] initScrollToTopButton: Button found:', scrollToTopBtn ? 'true' : 'false');
-
-    if (scrollToTopBtn) {
-        // Show/hide button based on scroll position
-        window.addEventListener('scroll', () => {
-            if (window.scrollY > 300) { // Show button after scrolling 300px
-                scrollToTopBtn.classList.add('show');
-            } else {
-                scrollToTopBtn.classList.remove('show');
-            }
-        });
-
-        // Smooth scroll to top on button click
-        scrollToTopBtn.addEventListener('click', () => {
-            console.log('[DEBUG] Scroll to top button clicked.');
-            window.scrollTo({
-                top: 0,
-                behavior: 'smooth'
-            });
-        });
-    }
-}
-
-// Function to initialize the floating contact button and popup
-function initFloatingContact() {
-    const floatingBtn = document.getElementById('floatingContactBtn');
-    const contactPopup = document.getElementById('contactOptionsPopup');
-    const popupOverlay = document.getElementById('contactOptionsOverlay'); // Universal overlay
-    const closeBtn = document.getElementById('contactOptionsClose');
-
-    console.log(`[DEBUG] initFloatingContact: Elements found: button=${floatingBtn ? 'true' : 'false'}, popup=${contactPopup ? 'true' : 'false'}, overlay=${popupOverlay ? 'true' : 'false'}, closeBtn=${closeBtn ? 'true' : 'false'}`);
-
-    if (floatingBtn && contactPopup && popupOverlay && closeBtn) {
-        // Show popup
-        floatingBtn.addEventListener('click', () => {
-            console.log('[DEBUG] Floating contact button clicked.');
-            contactPopup.classList.add('show');
-            floatingBtn.classList.add('popup-open'); // Add class to trigger icon/text changes
-            popupOverlay.classList.add('show'); // Show overlay when contact popup opens
-            document.body.style.overflow = 'hidden'; // Prevent background scrolling
-        });
-
-        // Hide popup
-        const hideContactPopup = () => {
-            console.log('[DEBUG] Hiding contact popup.');
-            contactPopup.classList.remove('show');
-            floatingBtn.classList.remove('popup-open'); // Remove class to revert icon/text changes
-            popupOverlay.classList.remove('show'); // Hide overlay when contact popup closes
-            document.body.style.overflow = ''; // Restore scrolling
-        };
-
-        closeBtn.addEventListener('click', hideContactPopup);
-        // Add listener to the universal overlay to close this popup if it's open
-        popupOverlay.addEventListener('click', (event) => {
-            // Only close if the click is directly on the overlay, not on the popup itself
-            if (event.target === popupOverlay && contactPopup.classList.contains('show')) {
-                hideContactPopup();
-            }
-        });
-
-        // Hide on Escape key
-        document.addEventListener('keydown', (e) => {
-            if (e.key === 'Escape' && contactPopup.classList.contains('show')) {
-                hideContactPopup();
-            }
-        });
-    } else {
-        console.warn('[WARNING] initFloatingContact: Some floating contact elements were not found. Ensure HTML IDs are correct.');
-    }
-}
-
-
-// Removed initLLMAssistant as per user request
-/*
-function initLLMAssistant() {
-    const queryInput = document.getElementById('llmQueryInput');
-    const askButton = document.getElementById('askLlmButton');
-    const loadingIndicator = document.getElementById('llmLoading');
-    const responseDisplay = document.getElementById('llmResponse');
-
-    console.log(`[DEBUG] initLLMAssistant: Elements found: input=${queryInput ? 'true' : 'false'}, button=${askButton ? 'true' : 'false'}, loading=${loadingIndicator ? 'true' : 'false'}, response=${responseDisplay ? 'true' : 'false'}`);
-
-
-    if (!queryInput || !askButton || !loadingIndicator || !responseDisplay) {
-        console.warn("[WARNING] AI Assistant elements not found. Skipping LLM initialization.");
-        return;
+    
+    /* Mobile Navigation (Horizontal Layout) */
+    nav {
+        width: calc(100% - 40px); /* Match body padding */
+        left: 0; /* Centering with auto margins */
+        right: 0;
+        margin-left: auto;
+        margin-right: auto;
+        transform: translateX(0); /* Ensure no extra transform */
+        padding: 12px 10px; /* Reduced padding for more space for links */
+        display: flex; /* Ensure it's a flex container */
+        justify-content: space-around; /* Distribute items evenly */
+        align-items: center;
+        border-radius: 50px; /* Keep pill shape */
+        flex-wrap: wrap; /* Allow items to wrap if necessary */
     }
 
-    askButton.addEventListener('click', async () => {
-        console.log('[DEBUG] Ask AI button clicked.');
-        const prompt = queryInput.value.trim();
-        if (!prompt) {
-            responseDisplay.innerHTML = '<p class="text-yellow-400">Please enter a question.</p>';
-            return;
-        }
+    nav ul.nav-menu { /* Target the main nav list */
+        position: static; /* No fixed positioning for this layout */
+        width: 100%; /* Take full width of nav container */
+        height: auto; /* Height adapts to content */
+        background: transparent; /* No background for this section */
+        backdrop-filter: none; /* No blur */
+        box-shadow: none; /* No shadow */
+        z-index: auto; /* Reset z-index */
+        flex-direction: row; /* Horizontal layout */
+        justify-content: space-around; /* Distribute items evenly */
+        align-items: center;
+        gap: 5px; /* Minimal gap between items on mobile */
+        overflow-y: visible; /* Allow content to be visible */
+        transition: none; /* No transitions needed here */
+        opacity: 1; /* Always visible */
+        visibility: visible;
+        pointer-events: auto; /* Always interactive */
+        border-radius: 0; /* No specific border radius here */
+        padding: 0; /* No extra padding for the ul itself */
+    }
 
-        loadingIndicator.classList.add('show');
-        responseDisplay.innerHTML = ''; // Clear previous response
+    nav .nav-menu li {
+        width: auto; /* Allow list items to size to content */
+        flex-shrink: 0; /* Prevent shrinking */
+    }
 
-        try {
-            let chatHistory = [];
-            chatHistory.push({ role: "user", parts: [{ text: prompt }] });
+    nav .nav-menu li a {
+        display: inline-block; /* Ensure it respects padding correctly */
+        text-align: center; /* Center text within item */
+        padding: 8px 5px; /* Reduced padding for very small screens */
+        font-size: 0.8rem; /* Smaller font size for compactness */
+        white-space: nowrap; /* Prevent text wrapping */
+    }
 
-            const payload = { contents: chatHistory };
-            const apiKey = ""; // Canvas will provide this in runtime. Do not add your API key here directly.
-            const apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=${apiKey}`;
+    nav .nav-menu li a:hover,
+    nav .nav-menu li a.active {
+        background: rgba(0, 255, 255, 0.1); /* Subtle background for hover/active */
+        color: #00ffff;
+        box-shadow: none;
+        transform: none;
+    }
+    
+    /* Hamburger Menu Icon (now removed from HTML, so these styles are inert) */
+    .hamburger-menu-icon {
+        display: none;
+    }
 
-            console.log('[DEBUG] Sending request to Gemini API...');
-            const response = await fetch(apiUrl, {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify(payload)
-            });
-
-            const result = await response.json();
-            console.log('[DEBUG] Gemini API response received:', result);
-
-            if (result.candidates && result.candidates.length > 0 &&
-                result.candidates[0].content && result.candidates[0].content.parts &&
-                result.candidates[0].content.parts.length > 0) {
-                const text = result.candidates[0].content.parts[0].text;
-                responseDisplay.innerHTML = `<p>${text}</p>`;
-                console.log('[DEBUG] AI response displayed.');
-            } else {
-                responseDisplay.innerHTML = '<p class="text-red-400">Sorry, I could not get a response from the AI. Please try again.</p>';
-                console.error('[ERROR] Unexpected API response structure:', result);
-            }
-        } catch (error) {
-            responseDisplay.innerHTML = '<p class="text-red-400">An error occurred while fetching the AI response. Please check your network connection or try again later.</p>';
-            conso
+    /* Fix for mobile nav bar shifting on hover/click */
+    nav:hover {
+        transform: translateX(0) translateY(0); /* No lift on mobile for this design */
+        box-shadow: none; /* No extra shadow on mobile hover */
+    }
+    nav.scrolled {
+        border-radius: 0; /* No rounded corners at top when scrolled */
+    }
 
 
+    /* Responsive Design adjustments for contact section */
+    .contact-detail-group,
+    .social-links-group {
+        flex-direction: column; /* Stack items vertically */
+        gap: 10px; /* Reduce gap when stacked */
+        align-items: flex-start; /* Align items to the start for left alignment */
+        width: 100%; /* Ensure they take full width */
+        padding-left: 0; /* Remove padding-left as it's handled by popup's internal padding */
+    }
+
+    .contact-detail-item,
+    .social-link {
+        width: fit-content; /* Adjust width to content for consistent alignment */
+        margin: 0; /* Remove auto margin to respect padding-left */
+    }
+
+    /* Adjust scroll-to-top button for smaller screens */
+    .scroll-to-top-btn {
+        width: 45px;
+        height: 45px;
+        bottom: 20px;
+        right: 20px;
+    }
+
+    /* Adjust floating contact button for smaller screens */
+    .floating-contact-btn {
+        bottom: 20px;
+        left: 20px;
+        padding: 10px 20px;
+        font-size: 0.9rem;
+    }
+
+    /* Adjust contact options popup for smaller screens */
+    .contact-options-popup.show {
+        bottom: 80px; /* Adjust to be above smaller floating button */
+        left: 20px; /* Match floating button's left position */
+        width: calc(100% - 40px); /* Match body padding */
+    }
+}

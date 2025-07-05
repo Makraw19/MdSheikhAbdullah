@@ -282,6 +282,7 @@ function initExperiencePopups() {
     }
     if (overlay) {
         overlay.addEventListener('click', (e) => {
+            // Only close if the click is on the overlay itself, not the popup content
             if (e.target === overlay) {
                 closeExperiencePopup();
             }
@@ -491,62 +492,6 @@ function initLLMAssistant() {
             }
         } catch (error) {
             responseDisplay.innerHTML = '<p class="text-red-400">An error occurred while fetching the AI response. Please check your network connection or try again later.</p>';
-            console.error('[ERROR] Error calling Gemini API:', error);
-        } finally {
-            loadingIndicator.classList.remove('show');
-            console.log('[DEBUG] LLM loading indicator hidden.');
-        }
-    });
-}
-*/
-
-
-// Initialize everything when page loads
-document.addEventListener('DOMContentLoaded', () => {
-    console.log('[DEBUG] DOMContentLoaded fired. Initializing all features...');
-    createParticles();
-    initSmoothScrolling();
-    initScrollAnimations();
-    initSkillTagInteractions();
-    initFormHandler();
-    initExperiencePopups(); // Make sure this is called to initialize popups
-    initScrollToTopButton(); // Initialize the scroll-to-top button
-    initFloatingContact(); // Initialize the floating contact button and popup
-    // initLLMAssistant(); // Removed as per user request
-    
-    // Call spacing function on load and resize
-    adjustNavLinkSpacing();
-    handleNavbarScroll(); // Initial check on load
-    console.log('[DEBUG] All features initialized.');
-});
-
-// Add dynamic navigation highlighting and handle navbar scroll state
-window.addEventListener('scroll', () => {
-    const current = window.scrollY;
-    const sections = document.querySelectorAll('section');
-    const navLinks = document.querySelectorAll('nav a');
-
-    // Handle active navigation link highlighting
-    sections.forEach((section, index) => {
-        const sectionTop = section.offsetTop - 100; // Adjusted for fixed nav
-        const sectionBottom = sectionTop + section.offsetHeight;
-
-        if (current >= sectionTop && current < sectionBottom) {
-            navLinks.forEach(link => link.classList.remove('active'));
-            if (navLinks[index]) {
-                navLinks[index].classList.add('active');
-            }
-        }
-    });
-
-    // Handle navbar scrolled state
-    handleNavbarScroll();
-});
-
-// Recalculate spacing on window resize
-window.addEventListener('resize', () => {
-    console.log('[DEBUG] Window resized. Adjusting nav spacing.');
-    adjustNavLinkSpacing();
-});
+            conso
 
 

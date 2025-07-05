@@ -1,6 +1,7 @@
 // Create animated particles
 function createParticles() {
     const container = document.getElementById('particles');
+    if (!container) return;
     const particleCount = 50;
     
     for (let i = 0; i < particleCount; i++) {
@@ -17,20 +18,16 @@ function createParticles() {
 // Smooth scrolling for navigation links
 function initSmoothScrolling() {
     const links = document.querySelectorAll('nav a[href^="#"]');
-    console.log('[DEBUG] initSmoothScrolling: Found links:', links.length);
     links.forEach(link => {
         link.addEventListener('click', (e) => {
             e.preventDefault();
             const targetId = link.getAttribute('href');
             const target = document.querySelector(targetId);
-            console.log(`[DEBUG] Smooth scroll click: Link clicked: ${targetId}, Target found:`, target ? 'true' : 'false');
             if (target) {
                 target.scrollIntoView({
                     behavior: 'smooth',
                     block: 'start'
                 });
-            } else {
-                console.warn(`[WARNING] Smooth scroll: Target element not found for ID: ${targetId}`);
             }
         });
     });
@@ -44,7 +41,6 @@ function initScrollAnimations() {
                 entry.target.style.opacity = '1';
                 entry.target.style.transform = 'translateY(0)';
                 
-                // Animate skill tags with stagger effect
                 if (entry.target.classList.contains('skill-category')) {
                     const tags = entry.target.querySelectorAll('.skill-tag');
                     tags.forEach((tag, index) => {
@@ -57,13 +53,13 @@ function initScrollAnimations() {
             }
         });
     }, { threshold: 0.1 });
+
     document.querySelectorAll('.skill-category, .timeline-item').forEach(el => {
         el.style.opacity = '0';
         el.style.transform = 'translateY(30px)';
         el.style.transition = 'all 0.6s ease';
         observer.observe(el);
         
-        // Pre-hide skill tags for animation
         if (el.classList.contains('skill-category')) {
             el.querySelectorAll('.skill-tag').forEach(tag => {
                 tag.style.opacity = '0';
@@ -76,67 +72,47 @@ function initScrollAnimations() {
 
 // Form submission handler
 function initFormHandler() {
-    const form = document.querySelector('.contact-form form'); // Select the form specifically
-    console.log('[DEBUG] initFormHandler: Form found:', form ? 'true' : 'false');
+    const form = document.querySelector('.contact-form form');
+    if (!form) return;
 
-    if (form) {
-        form.addEventListener('submit', async (e) => { // Made the function async
-            e.preventDefault();
-            console.log('[DEBUG] Form submission initiated.');
+    form.addEventListener('submit', async (e) => {
+        e.preventDefault();
+        const button = form.querySelector('button[type="submit"]');
+        const originalText = button.textContent;
+        
+        button.textContent = 'Sending...';
+        button.disabled = true;
 
-            const button = form.querySelector('button[type="submit"]');
-            const originalText = button.textContent;
-            
-            button.textContent = 'Sending...';
-            button.disabled = true;
+        const formData = new FormData(form);
+        const formEndpoint = form.action;
 
-            const formData = new FormData(form);
-            const formEndpoint = form.action;
+        try {
+            const response = await fetch(formEndpoint, {
+                method: 'POST',
+                body: formData,
+                headers: { 'Accept': 'application/json' }
+            });
 
-            try {
-                const response = await fetch(formEndpoint, {
-                    method: 'POST',
-                    body: formData,
-                    headers: {
-                        'Accept': 'application/json' // Essential for Formspree to return JSON
-                    }
-                });
-
-                if (response.ok) {
-                    button.textContent = 'Message Sent!';
-                    button.style.background = 'linear-gradient(135deg, #00ff00, #008800)';
-                    console.log('[DEBUG] Message sent successfully!');
-                    form.reset(); // Clear the form
-                } else {
-                    const data = await response.json();
-                    if (Object.hasOwnProperty.call(data, 'errors')) {
-                        console.error('[ERROR] Formspree errors:', data["errors"].map(error => error["message"]).join(", "));
-                        button.textContent = 'Error!';
-                        button.style.background = 'linear-gradient(135deg, #ff0000, #cc0000)';
-                    } else {
-                        console.error('[ERROR] Form submission failed:', response.statusText);
-                        button.textContent = 'Error!';
-                        button.style.background = 'linear-gradient(135deg, #ff0000, #cc0000)';
-                    }
-                }
-            } catch (error) {
-                console.error('[ERROR] Network or submission error:', error);
+            if (response.ok) {
+                button.textContent = 'Message Sent!';
+                button.style.background = 'linear-gradient(135deg, #00ff00, #008800)';
+                form.reset();
+            } else {
                 button.textContent = 'Error!';
                 button.style.background = 'linear-gradient(135deg, #ff0000, #cc0000)';
-            } finally {
-                // Revert button text and enable after a short delay
-                setTimeout(() => {
-                    button.textContent = originalText;
-                    button.disabled = false;
-                    button.style.background = ''; // Reset background to original CSS
-                }, 2000);
             }
-        });
-    } else {
-        console.warn('[WARNING] initFormHandler: Contact form not found.');
-    }
+        } catch (error) {
+            button.textContent = 'Error!';
+            button.style.background = 'linear-gradient(135deg, #ff0000, #cc0000)';
+        } finally {
+            setTimeout(() => {
+                button.textContent = originalText;
+                button.disabled = false;
+                button.style.background = '';
+            }, 3000);
+        }
+    });
 }
-
 
 // Experience popup functionality
 function initExperiencePopups() {
@@ -234,6 +210,8 @@ function initExperiencePopups() {
     const overlay = document.getElementById('popup-overlay');
     const closeBtn = document.getElementById('popup-close');
 
+    if (!popup || !overlay || !closeBtn) return;
+
     timelineItems.forEach(item => {
         item.addEventListener('click', () => {
             const experienceKey = item.getAttribute('data-experience');
@@ -248,21 +226,14 @@ function initExperiencePopups() {
                             <div class="popup-company">${data.company}</div>
                             <div class="popup-duration">${data.duration}</div>
                         </div>
-                        
                         <div class="popup-section">
                             <h4>🎯 Key Responsibilities</h4>
-                            <ul>
-                                ${data.responsibilities.map(resp => `<li>${resp}</li>`).join('')}
-                            </ul>
+                            <ul>${data.responsibilities.map(resp => `<li>${resp}</li>`).join('')}</ul>
                         </div>
-                        
                         <div class="popup-section">
                             <h4>🛠️ Tools & Technologies</h4>
-                            <div class="tools-grid">
-                                ${data.tools.map(tool => `<span class="tool-tag">${tool}</span>`).join('')}
-                            </div>
-                        </div>
-                    `;
+                            <div class="tools-grid">${data.tools.map(tool => `<span class="tool-tag">${tool}</span>`).join('')}</div>
+                        </div>`;
                     overlay.classList.add('show');
                     popup.classList.add('show');
                     document.body.style.overflow = 'hidden';
@@ -277,17 +248,12 @@ function initExperiencePopups() {
         document.body.style.overflow = '';
     }
 
-    if (closeBtn) {
-        closeBtn.addEventListener('click', closeExperiencePopup);
-    }
-    if (overlay) {
-        overlay.addEventListener('click', (e) => {
-            // Only close if the click is on the overlay itself, not the popup content
-            if (e.target === overlay) {
-                closeExperiencePopup();
-            }
-        });
-    }
+    closeBtn.addEventListener('click', closeExperiencePopup);
+    overlay.addEventListener('click', (e) => {
+        if (e.target === overlay) {
+            closeExperiencePopup();
+        }
+    });
     
     document.addEventListener('keydown', (e) => {
         if (e.key === 'Escape' && popup.classList.contains('show')) {
@@ -296,25 +262,17 @@ function initExperiencePopups() {
     });
 }
 
-
 function initSkillTagInteractions() {
     const skillTags = document.querySelectorAll('.skill-tag');
-    console.log('[DEBUG] initSkillTagInteractions: Found skill tags:', skillTags.length);
-    
     skillTags.forEach(tag => {
         tag.addEventListener('click', () => {
-            // Toggle active state
             tag.classList.toggle('active');
-            console.log(`[DEBUG] Skill tag clicked: ${tag.textContent}, Active status: ${tag.classList.contains('active')}`);
-            
-            // Add a little bounce effect
             tag.style.transform = 'scale(0.95)';
             setTimeout(() => {
                 tag.style.transform = '';
             }, 150);
         });
         
-        // Add random glow effect on hover
         tag.addEventListener('mouseenter', () => {
             const glowIntensity = Math.random() * 0.5 + 0.3;
             tag.style.boxShadow = `0 8px 25px rgba(0, 255, 255, ${glowIntensity})`;
@@ -328,31 +286,25 @@ function initSkillTagInteractions() {
     });
 }
 
-// Function to adjust navigation link spacing (for desktop)
 function adjustNavLinkSpacing() {
     const navUl = document.querySelector('nav ul');
     if (!navUl) return;
 
-    // Only apply JavaScript spacing on desktop screens
     if (window.innerWidth > 768) {
-        navUl.style.justifyContent = 'flex-start'; // Or 'space-around', depending on your desktop design
-        navUl.style.gap = '30px'; // Reapply original desktop gap
-        navUl.style.marginRight = ''; // Clear any mobile-specific margins
-        console.log('[DEBUG] adjustNavLinkSpacing: Applied desktop styles.');
+        navUl.style.justifyContent = 'flex-start';
+        navUl.style.gap = '30px';
+        navUl.style.marginRight = '';
     } else {
-        // Reset styles for mobile, as CSS takes over for the mobile menu
         navUl.style.justifyContent = '';
         navUl.style.gap = '';
         navUl.style.marginRight = '';
-        console.log('[DEBUG] adjustNavLinkSpacing: Reset styles for mobile.');
     }
 }
 
-// Function to handle the navbar's "scrolled" state
 function handleNavbarScroll() {
     const navbar = document.querySelector('nav');
     if (navbar) {
-        if (window.scrollY > 50) { // Adjust this value as needed
+        if (window.scrollY > 50) {
             navbar.classList.add('scrolled');
         } else {
             navbar.classList.remove('scrolled');
@@ -360,136 +312,99 @@ function handleNavbarScroll() {
     }
 }
 
-// Function to initialize the scroll-to-top button
 function initScrollToTopButton() {
     const scrollToTopBtn = document.getElementById('scrollToTopBtn');
-    console.log('[DEBUG] initScrollToTopButton: Button found:', scrollToTopBtn ? 'true' : 'false');
+    if (!scrollToTopBtn) return;
 
-    if (scrollToTopBtn) {
-        // Show/hide button based on scroll position
-        window.addEventListener('scroll', () => {
-            if (window.scrollY > 300) { // Show button after scrolling 300px
-                scrollToTopBtn.classList.add('show');
-            } else {
-                scrollToTopBtn.classList.remove('show');
-            }
-        });
+    window.addEventListener('scroll', () => {
+        if (window.scrollY > 300) {
+            scrollToTopBtn.classList.add('show');
+        } else {
+            scrollToTopBtn.classList.remove('show');
+        }
+    });
 
-        // Smooth scroll to top on button click
-        scrollToTopBtn.addEventListener('click', () => {
-            console.log('[DEBUG] Scroll to top button clicked.');
-            window.scrollTo({
-                top: 0,
-                behavior: 'smooth'
-            });
+    scrollToTopBtn.addEventListener('click', () => {
+        window.scrollTo({
+            top: 0,
+            behavior: 'smooth'
         });
-    }
+    });
 }
 
-// Function to initialize the floating contact button and popup
 function initFloatingContact() {
     const floatingBtn = document.getElementById('floatingContactBtn');
     const contactPopup = document.getElementById('contactOptionsPopup');
-    const popupOverlay = document.getElementById('contactOptionsOverlay'); // Universal overlay
+    const popupOverlay = document.getElementById('contactOptionsOverlay');
     const closeBtn = document.getElementById('contactOptionsClose');
 
-    console.log(`[DEBUG] initFloatingContact: Elements found: button=${floatingBtn ? 'true' : 'false'}, popup=${contactPopup ? 'true' : 'false'}, overlay=${popupOverlay ? 'true' : 'false'}, closeBtn=${closeBtn ? 'true' : 'false'}`);
+    if (!floatingBtn || !contactPopup || !popupOverlay || !closeBtn) return;
 
-    if (floatingBtn && contactPopup && popupOverlay && closeBtn) {
-        // Show popup
-        floatingBtn.addEventListener('click', () => {
-            console.log('[DEBUG] Floating contact button clicked.');
-            contactPopup.classList.add('show');
-            floatingBtn.classList.add('popup-open'); // Add class to trigger icon/text changes
-            popupOverlay.classList.add('show'); // Show overlay when contact popup opens
-            document.body.style.overflow = 'hidden'; // Prevent background scrolling
-        });
+    floatingBtn.addEventListener('click', () => {
+        contactPopup.classList.add('show');
+        floatingBtn.classList.add('popup-open');
+        popupOverlay.classList.add('show');
+        document.body.style.overflow = 'hidden';
+    });
 
-        // Hide popup
-        const hideContactPopup = () => {
-            console.log('[DEBUG] Hiding contact popup.');
-            contactPopup.classList.remove('show');
-            floatingBtn.classList.remove('popup-open'); // Remove class to revert icon/text changes
-            popupOverlay.classList.remove('show'); // Hide overlay when contact popup closes
-            document.body.style.overflow = ''; // Restore scrolling
-        };
+    const hideContactPopup = () => {
+        contactPopup.classList.remove('show');
+        floatingBtn.classList.remove('popup-open');
+        popupOverlay.classList.remove('show');
+        document.body.style.overflow = '';
+    };
 
-        closeBtn.addEventListener('click', hideContactPopup);
-        // Add listener to the universal overlay to close this popup if it's open
-        popupOverlay.addEventListener('click', (event) => {
-            // Only close if the click is directly on the overlay, not on the popup itself
-            if (event.target === popupOverlay && contactPopup.classList.contains('show')) {
-                hideContactPopup();
-            }
-        });
+    closeBtn.addEventListener('click', hideContactPopup);
+    popupOverlay.addEventListener('click', (event) => {
+        if (event.target === popupOverlay) {
+            hideContactPopup();
+        }
+    });
 
-        // Hide on Escape key
-        document.addEventListener('keydown', (e) => {
-            if (e.key === 'Escape' && contactPopup.classList.contains('show')) {
-                hideContactPopup();
-            }
-        });
-    } else {
-        console.warn('[WARNING] initFloatingContact: Some floating contact elements were not found. Ensure HTML IDs are correct.');
-    }
+    document.addEventListener('keydown', (e) => {
+        if (e.key === 'Escape' && contactPopup.classList.contains('show')) {
+            hideContactPopup();
+        }
+    });
 }
 
+// Main initialization function that runs after the DOM is loaded
+document.addEventListener('DOMContentLoaded', () => {
+    createParticles();
+    initSmoothScrolling();
+    initScrollAnimations();
+    initSkillTagInteractions();
+    initFormHandler();
+    initExperiencePopups();
+    initScrollToTopButton();
+    initFloatingContact();
+    adjustNavLinkSpacing();
+    handleNavbarScroll();
 
-// Removed initLLMAssistant as per user request
-/*
-function initLLMAssistant() {
-    const queryInput = document.getElementById('llmQueryInput');
-    const askButton = document.getElementById('askLlmButton');
-    const loadingIndicator = document.getElementById('llmLoading');
-    const responseDisplay = document.getElementById('llmResponse');
+    // Active nav link highlighting on scroll
+    window.addEventListener('scroll', () => {
+        handleNavbarScroll();
+        const current = window.scrollY;
+        const sections = document.querySelectorAll('section');
+        const navLinks = document.querySelectorAll('nav a');
 
-    console.log(`[DEBUG] initLLMAssistant: Elements found: input=${queryInput ? 'true' : 'false'}, button=${askButton ? 'true' : 'false'}, loading=${loadingIndicator ? 'true' : 'false'}, response=${responseDisplay ? 'true' : 'false'}`);
+        sections.forEach((section) => {
+            const sectionTop = section.offsetTop - 100;
+            const sectionBottom = sectionTop + section.offsetHeight;
+            const sectionId = section.getAttribute('id');
 
-
-    if (!queryInput || !askButton || !loadingIndicator || !responseDisplay) {
-        console.warn("[WARNING] AI Assistant elements not found. Skipping LLM initialization.");
-        return;
-    }
-
-    askButton.addEventListener('click', async () => {
-        console.log('[DEBUG] Ask AI button clicked.');
-        const prompt = queryInput.value.trim();
-        if (!prompt) {
-            responseDisplay.innerHTML = '<p class="text-yellow-400">Please enter a question.</p>';
-            return;
-        }
-
-        loadingIndicator.classList.add('show');
-        responseDisplay.innerHTML = ''; // Clear previous response
-
-        try {
-            let chatHistory = [];
-            chatHistory.push({ role: "user", parts: [{ text: prompt }] });
-
-            const payload = { contents: chatHistory };
-            const apiKey = ""; // Canvas will provide this in runtime. Do not add your API key here directly.
-            const apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=${apiKey}`;
-
-            console.log('[DEBUG] Sending request to Gemini API...');
-            const response = await fetch(apiUrl, {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify(payload)
-            });
-
-            const result = await response.json();
-            console.log('[DEBUG] Gemini API response received:', result);
-
-            if (result.candidates && result.candidates.length > 0 &&
-                result.candidates[0].content && result.candidates[0].content.parts &&
-                result.candidates[0].content.parts.length > 0) {
-                const text = result.candidates[0].content.parts[0].text;
-                responseDisplay.innerHTML = `<p>${text}</p>`;
-                console.log('[DEBUG] AI response displayed.');
-            } else {
-                responseDisplay.innerHTML = '<p class="text-red-400">Sorry, I could not get a response from the AI. Please try again.</p>';
-                console.error('[ERROR] Unexpected API response structure:', result);
+            if (current >= sectionTop && current < sectionBottom) {
+                navLinks.forEach(link => {
+                    link.classList.remove('active');
+                    if (link.getAttribute('href') === `#${sectionId}`) {
+                        link.classList.add('active');
+                    }
+                });
             }
-        } catch (error) {
-            responseDisplay.innerHTML = '<p class="text-red-400">An error occurred while fetching the AI response. Please check your network connection or try again later.</p>';
-            conso
+        });
+    });
+
+    // Adjust nav on resize
+    window.addEventListener('resize', adjustNavLinkSpacing);
+});
+

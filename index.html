@@ -3,19 +3,22 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline'; form-action 'self' https://formspree.io; frame-ancestors 'none';">
+    <meta http-equiv="Content-Security-Policy" content="default-src 'self' https://fonts.googleapis.com https://fonts.gstatic.com; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; form-action 'self' https://formspree.io; frame-ancestors 'none';">
     <title>MD Sheikh Abdullah - Software QA Engineer</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="styles.css">
 </head>
 <body>
-    <!-- Animated Background -->
-    <div class="bg-particles" id="particles"></div>
+    <div class="background-container">
+        <div class="bg-particles" id="particles-fast"></div>
+        <div class="bg-particles" id="particles-slow"></div>
+    </div>
 
-    <!-- Navigation -->
     <nav>
-        <!-- Removed hamburger-menu-icon div -->
-        <ul class="nav-menu"> <!-- Added class nav-menu -->
-            <li><a href="#home">Home</a></li>
+        <ul class="nav-menu">
+            <li><a href="#home" class="active">Home</a></li>
             <li><a href="#about">About</a></li>
             <li><a href="#skills">Skills</a></li>
             <li><a href="#experience">Experience</a></li>
@@ -23,15 +26,13 @@
         </ul>
     </nav>
 
-    <!-- Hero Section -->
     <section id="home" class="hero">
         <div class="hero-content">
             <h1>MD Sheikh Abdullah</h1>
-            <p class="subtitle">Senior Software QA Engineer</p>
+            <p class="subtitle" id="subtitle-text"></p>
             <p class="description">
                 Passionate about ensuring software excellence through comprehensive testing strategies,
-                automation frameworks, and quality assurance best practices. Specializing in test automation,
-                performance testing, and agile methodologies.
+                automation frameworks, and quality assurance best practices.
             </p>
             <div class="cta-buttons">
                 <a href="#contact" class="btn btn-primary">Get In Touch</a>
@@ -40,10 +41,9 @@
         </div>
     </section>
 
-    <!-- About Section -->
     <section id="about">
         <h2 class="section-title">About Me</h2>
-        <div style="text-align: center; max-width: 800px; margin: 0 auto; font-size: 1.1rem; line-height: 1.8; color: #cccccc;">
+        <div style="text-align: center; max-width: 800px; margin: 0 auto; font-size: 1.1rem; line-height: 1.8; color: #cccccc; font-weight: 300;">
             <p>
                 With over 4 years of experience in software quality assurance, I've helped companies
                 deliver high-quality software products by implementing robust testing strategies and automation frameworks. My expertise spans across web applications, mobile apps, and API testing, with a strong focus on
@@ -57,12 +57,11 @@
         </div>
     </section>
 
-    <!-- Skills Section -->
     <section id="skills">
         <h2 class="section-title">Core Skills</h2>
         <div class="skills-container">
             <div class="skill-category">
-                <h3 class="category-title">🔧 Test Automation</h3>
+                <h3 class="category-title">Test Automation</h3>
                 <div class="skills-grid">
                     <div class="skill-tag">Selenium WebDriver</div>
                     <div class="skill-tag">Katalon Studio</div>
@@ -75,9 +74,8 @@
                     <div class="skill-tag">RestAssured</div>
                 </div>
             </div>
-
             <div class="skill-category">
-                <h3 class="category-title">💻 Programming & Scripting</h3>
+                <h3 class="category-title">Programming & Scripting</h3>
                 <div class="skills-grid">
                     <div class="skill-tag">Java</div>
                     <div class="skill-tag">Python</div>
@@ -88,9 +86,8 @@
                     <div class="skill-tag">Groovy</div>
                 </div>
             </div>
-
             <div class="skill-category">
-                <h3 class="category-title">🧪 Testing Types</h3>
+                <h3 class="category-title">Testing Types</h3>
                 <div class="skills-grid">
                     <div class="skill-tag">Functional Testing</div>
                     <div class="skill-tag">API Testing</div>
@@ -100,9 +97,8 @@
                     <div class="skill-tag">Accessibility Testing</div>
                 </div>
             </div>
-
             <div class="skill-category">
-                <h3 class="category-title">🛠️ Tools & Technologies</h3>
+                <h3 class="category-title">Tools & Technologies</h3>
                 <div class="skills-grid">
                     <div class="skill-tag">JIRA</div>
                     <div class="skill-tag">TestRail</div>
@@ -117,10 +113,10 @@
         </div>
     </section>
 
-    <!-- Experience Section -->
     <section id="experience">
         <h2 class="section-title">Professional Experience</h2>
-        <div class="timeline">
+        <div class="timeline" id="experience-timeline">
+            <div class="timeline-progress" id="timeline-progress"></div>
             <div class="timeline-item">
                 <div class="timeline-content" data-experience="tensis-sr-qa">
                     <h3>Sr. Quality Assurance Engineer</h3>
@@ -164,21 +160,17 @@
                 </div>
             </div>
         </div>
+    </section>
 
-    <!-- Experience Popup -->
     <div class="popup-overlay" id="popup-overlay"></div>
-    <div class="experience-popup" id="experience-popup">
+    <div class="experience-popup card" id="experience-popup">
         <button class="popup-close" id="popup-close">&times;</button>
         <div id="popup-content"></div>
     </div>
-    </section>
 
-
-    <!-- Contact Section -->
     <section id="contact">
         <h2 class="section-title">Let's Work Together</h2>
-        <div class="contact-form">
-            <!-- IMPORTANT: Replace "YOUR_FORMSPREE_ENDPOINT_HERE" with your actual Formspree endpoint -->
+        <div class="contact-form card">
             <form action="https://formspree.io/f/myzjdlee" method="POST">
                 <div class="form-group">
                     <label for="name">Name</label>
@@ -190,7 +182,7 @@
                 </div>
                 <div class="form-group">
                     <label for="subject">Subject</label>
-                    <input type="text" id="subject" name="_subject" required> <!-- Formspree uses _subject for email subject -->
+                    <input type="text" id="subject" name="_subject" required>
                 </div>
                 <div class="form-group">
                     <label for="message">Message</label>
@@ -198,70 +190,43 @@
                 </div>
                 <button type="submit" class="btn btn-primary" style="width: 100%;">Send Message</button>
             </form>
-            <!-- Removed fixed contact info from here -->
         </div>
     </section>
 
-    <!-- Floating Contact Button (Pill) -->
     <button id="floatingContactBtn" class="floating-contact-btn">
-        <span class="btn-text">Contact Me</span>
-        <!-- Initial Icon (Envelope/Chat Bubble) -->
-        <svg class="btn-icon initial-icon" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-            <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path>
-        </svg>
-        <!-- Close Icon (X) -->
-        <svg class="btn-icon close-icon" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-            <line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line>
-        </svg>
+        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path></svg>
     </button>
-
-    <!-- Contact Options Popup -->
-    <div class="contact-options-overlay" id="contactOptionsOverlay"></div>
-    <div class="contact-options-popup" id="contactOptionsPopup">
-        <button class="popup-close contact-options-close" id="contactOptionsClose">&times;</button>
+    <div class="contact-options-popup card" id="contactOptionsPopup">
+        <button class="popup-close" id="contact-popup-close">&times;</button>
         <div class="popup-header">
             <h3 class="popup-title">Get In Touch</h3>
         </div>
         <div class="contact-info-container">
             <div class="contact-detail-group">
                 <a href="mailto:sheikhtashan@gmail.com" class="contact-detail-item">
-                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="color: #00ffff;">
-                        <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path>
-                        <polyline points="22,6 12,13 2,6"></polyline>
-                    </svg>
+                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path><polyline points="22,6 12,13 2,6"></polyline></svg>
                     <span>sheikhtashan@gmail.com</span>
                 </a>
                 <a href="tel:+61434239738" class="contact-detail-item">
-                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="color: #00ffff;">
-                        <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"></path>
-                    </svg>
+                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"></path></svg>
                     <span>+61 (434) 239-738</span>
                 </a>
             </div>
             <div class="social-links-group">
-                <a href="https://www.linkedin.com/in/sheikh-abdullah-a55a33193/" target="_blank" class="social-link">
-                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="color: #0077b5;">
-                        <path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"></path>
-                        <rect x="2" y="9" width="4" height="12"></rect>
-                        <circle cx="4" cy="4" r="2"></circle>
-                    </svg>
+                <a href="https://linkedin.com/in/mdsheikhabdullah-qa" target="_blank" class="social-link">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"></path><rect x="2" y="9" width="4" height="12"></rect><circle cx="4" cy="4" r="2"></circle></svg>
                     <span>LinkedIn</span>
                 </a>
-                <a href="https://github.com/Makraw19" target="_blank" class="social-link">
-                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="color: #ffffff;">
-                        <path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"></path>
-                    </svg>
+                <a href="https://github.com/mdsheikhabdullah-qa" target="_blank" class="social-link">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"></path></svg>
                     <span>GitHub</span>
                 </a>
             </div>
         </div>
     </div>
 
-    <!-- Scroll-to-top Button -->
     <button id="scrollToTopBtn" class="scroll-to-top-btn">
-        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-            <polyline points="18 15 12 9 6 15"></polyline>
-        </svg>
+        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="18 15 12 9 6 15"></polyline></svg>
     </button>
 
     <script src="scripts.js"></script>

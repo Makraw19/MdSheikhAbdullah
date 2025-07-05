@@ -315,6 +315,20 @@ section {
     width: 50%;
 }
 
+.timeline-item::after {
+    content: '';
+    position: absolute;
+    top: 40px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 16px;
+    height: 16px;
+    background-color: #1a1a2e;
+    border: 3px solid var(--glow-color);
+    border-radius: 50%;
+    z-index: 1;
+}
+
 .timeline-item:nth-child(odd) {
     align-self: flex-end;
     justify-content: flex-start;
@@ -327,10 +341,10 @@ section {
     border: 1px solid rgba(255, 255, 255, 0.1);
     border-radius: 15px;
     padding: 25px;
-    margin: 0 20px;
+    margin: 0 40px;
     position: relative;
     transition: all 0.4s cubic-bezier(0.25, 0.8, 0.25, 1);
-    width: calc(100% - 40px);
+    width: calc(100% - 80px);
 }
 
 .timeline-content:hover {
@@ -454,7 +468,15 @@ section {
 .popup-section { margin: 25px 0; }
 .popup-section h4 { color: #00ffff; font-size: 1.2rem; margin-bottom: 15px; display: flex; align-items: center; gap: 10px; }
 .popup-section ul { list-style: none; padding-left: 0; }
-.popup-section li { margin: 8px 0; padding-left: 25px; position: relative; color: #cccccc; line-height: 1.7; font-weight: 300; }
+.popup-section li { 
+    margin: 8px 0; 
+    padding-left: 25px; 
+    position: relative; 
+    color: #cccccc; 
+    line-height: 1.7; 
+    font-weight: 300; 
+    border: none !important; /* Force remove any accidental borders */
+}
 .popup-section li::before { content: '✓'; position: absolute; left: 0; color: #00ffff; }
 .tools-grid { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 10px; }
 .tool-tag { background: rgba(0, 255, 255, 0.1); border: 1px solid rgba(0, 255, 255, 0.3); border-radius: 15px; padding: 5px 12px; font-size: 0.9rem; color: #00ffff; }
@@ -506,6 +528,7 @@ section {
     .floating-contact-btn { left: 15px; bottom: 15px; }
     .scroll-to-top-btn { right: 15px; bottom: 15px; }
 }
+
 
 
 

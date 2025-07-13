@@ -1,6 +1,8 @@
 :root {
     --glow-color: rgba(0, 255, 255, 0.7);
     --primary-gradient: linear-gradient(135deg, #00ffff, #ff00ff);
+    --scrollbar-track: #1a1a2e;
+    --scrollbar-thumb: #00ffff;
 }
 
 * {
@@ -11,6 +13,9 @@
 
 html {
     scroll-behavior: smooth;
+    /* Firefox Scrollbar */
+    scrollbar-width: thin;
+    scrollbar-color: var(--scrollbar-thumb) var(--scrollbar-track);
 }
 
 body {
@@ -19,6 +24,55 @@ body {
     color: #e0e0e0;
     overflow-x: hidden;
 }
+
+/* Webkit (Chrome, Safari, Edge) Body Scrollbar */
+body::-webkit-scrollbar {
+    width: 12px;
+}
+
+body::-webkit-scrollbar-track {
+    background: var(--scrollbar-track);
+}
+
+body::-webkit-scrollbar-thumb {
+    background-image: linear-gradient(180deg, #00ffff, #ff00ff);
+    border-radius: 20px;
+    border: 3px solid var(--scrollbar-track);
+    transition: background-image 0.3s ease;
+}
+
+body::-webkit-scrollbar-thumb:hover {
+    background-image: linear-gradient(180deg, #5affff, #ff5eff);
+}
+
+body::-webkit-scrollbar-button {
+    display: none;
+}
+
+/* Webkit Scrollbar for Popups */
+.experience-popup .card-inner::-webkit-scrollbar {
+    width: 12px;
+}
+
+.experience-popup .card-inner::-webkit-scrollbar-track {
+    background: rgba(20, 20, 40, 0.95);
+    border-radius: 20px;
+}
+
+.experience-popup .card-inner::-webkit-scrollbar-thumb {
+    background-image: linear-gradient(180deg, #00ffff, #ff00ff);
+    border-radius: 20px;
+    border: 3px solid rgba(20, 20, 40, 0.95);
+}
+
+.experience-popup .card-inner::-webkit-scrollbar-thumb:hover {
+    background-image: linear-gradient(180deg, #5affff, #ff5eff);
+}
+
+.experience-popup .card-inner::-webkit-scrollbar-button {
+    display: none;
+}
+
 
 .background-container {
     position: fixed;
@@ -72,6 +126,7 @@ nav {
     transform: translateX(-50%);
     background: rgba(26, 26, 46, 0.5);
     backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
     border: 1px solid rgba(255, 255, 255, 0.1);
     border-radius: 50px;
     padding: 10px 25px;
@@ -108,10 +163,11 @@ nav a:hover {
 
 nav a:focus {
     outline: 2px solid var(--glow-color);
+    outline-offset: 2px;
 }
 
 nav a.active {
-    color: #000000;
+    color: #0f0f23;
     font-weight: 600;
     background: var(--primary-gradient);
     box-shadow: 0 0 15px var(--glow-color);
@@ -119,12 +175,13 @@ nav a.active {
         
 /* Hero Section */
 .hero {
-    height: 100vh;
+    min-height: 100vh;
     display: flex;
     align-items: center;
     justify-content: center;
     text-align: center;
     position: relative;
+    padding: 20px;
 }
 
 .hero-content {
@@ -139,7 +196,7 @@ nav a.active {
 }
 
 .hero h1 {
-    font-size: 4.5rem;
+    font-size: clamp(2.5rem, 10vw, 4.5rem);
     font-weight: 800;
     margin-bottom: 15px;
     background: linear-gradient(135deg, #00ffff, #ff00ff, #ffff00);
@@ -155,11 +212,11 @@ nav a.active {
 }
 
 .hero .subtitle {
-    font-size: 1.5rem;
+    font-size: clamp(1.2rem, 4vw, 1.5rem);
     color: #b3b3b3;
     margin-bottom: 30px;
     font-weight: 400;
-    min-height: 2.2rem; /* Reserve space for typing text */
+    min-height: 2.2rem;
 }
 
 .typing-cursor {
@@ -227,7 +284,7 @@ section {
 }
 
 .section-title {
-    font-size: 3.5rem;
+    font-size: clamp(2.2rem, 8vw, 3.5rem);
     font-weight: 700;
     text-align: center;
     margin-bottom: 80px;
@@ -235,6 +292,18 @@ section {
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
     background-clip: text;
+}
+
+/* Scroll to Reveal Animation */
+.reveal-on-scroll {
+    opacity: 0;
+    transform: translateY(30px);
+    transition: opacity 0.8s ease-out, transform 0.8s ease-out;
+}
+
+.reveal-on-scroll.is-visible {
+    opacity: 1;
+    transform: translateY(0);
 }
 
 /* Skills Grid */
@@ -328,6 +397,7 @@ section {
 .timeline-content {
     background: rgba(26, 26, 46, 0.5);
     backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
     border: 1px solid rgba(255, 255, 255, 0.1);
     border-radius: 15px;
     padding: 30px;
@@ -442,6 +512,7 @@ section {
     height: 100%;
     background: rgba(0, 0, 0, 0.6);
     backdrop-filter: blur(5px);
+    -webkit-backdrop-filter: blur(5px);
     z-index: 2000;
     opacity: 0;
     visibility: hidden;
@@ -508,28 +579,22 @@ section {
 @media (max-width: 1024px) {
     body { font-size: 15px; }
     section { padding: 100px 40px; }
-    .hero h1 { font-size: 3.5rem; }
-    .section-title { font-size: 3rem; }
-    nav ul { gap: 20px; }
 }
 
 @media (max-width: 768px) {
     body { font-size: 14px; }
-    .hero h1 { font-size: 2.5rem; }
-    .hero .subtitle { font-size: 1.1rem; }
     section { padding: 80px 20px; }
-    .section-title { font-size: 2.2rem; margin-bottom: 50px; }
     nav { width: calc(100% - 20px); padding: 8px 10px; }
     nav ul { gap: 5px; justify-content: space-between; width: 100%; }
     nav a { padding: 8px; font-size: 0.8rem; flex-grow: 1; text-align: center; }
     .timeline::before, .timeline-progress { left: 10px; }
     .timeline-item, .timeline-item:nth-child(odd) { width: 100%; left: 0; padding-left: 30px; }
-    .timeline-item::after { left: 10px; }
     .timeline-content { margin: 0 0 0 20px; width: calc(100% - 20px); }
     .contact-options-popup { left: 15px; width: calc(100% - 30px); }
     .floating-contact-btn { left: 15px; bottom: 15px; }
     .scroll-to-top-btn { right: 15px; bottom: 15px; }
 }
+
 
 
 

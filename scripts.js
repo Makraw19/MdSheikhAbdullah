@@ -91,95 +91,9 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     // --- Experience Popups ---
-    function initExperiencePopups() {
-        const experienceData = {
-            'tensis-sr-qa': {
-                title: 'Sr. Quality Assurance Engineer',
-                company: 'Tensis || Ultimo, Sydney',
-                duration: 'October 2024 – Present',
-                responsibilities: [
-                    "Developed and implemented comprehensive QA strategies and roadmaps aligned with Tensis's AI-powered automation solutions and company goals.",
-                    "Established and maintaining rigorous quality standards, metrics, and KPIs, focusing on data integrity, security, accuracy, and regulatory compliance.",
-                    "Proactively identify and assess potential quality risks, developing strategies for effective mitigation.",
-                    "Established robust defect tracking, reporting, and resolution processes, ensuring clear communication and timely fixes.",
-                    "Lead the adoption and expansion of test automation frameworks and tools, maximizing automation coverage for efficiency and reliability, especially for data-driven scenarios.",
-                    "Implementation of performance, load, and security testing to ensure scalability, responsiveness, and resilience, particularly for critical data.",
-                    "Ensure thorough testing of APIs and integrations with third-party systems."
-                ],
-                tools: ['JIRA', 'TestRail', 'Selenium', 'Cypress', 'Playwright', 'Postman', 'JMeter', 'CI/CD', 'SQL'],
-            },
-            'pencs-qa': {
-                title: 'Quality Assurance Engineer',
-                company: 'Pen CS || Leichhardt, Sydney',
-                duration: 'November 2023 – October 2024',
-                responsibilities: [
-                    "Developing comprehensive test plans, scenario matrix and test cases to ensure thorough test coverage.",
-                    "Executing test cases, identified defects, and reported them in a clear and concise manner.",
-                    "Collaborating with developers and business analysts to understand software requirements and ensure testing objectives were met.",
-                    "Documenting test results, generated defect reports, and maintained accurate and organized test documentation.",
-                    "Conducting root cause analysis for defects, providing recommendations for improvements.",
-                    "Working closely with cross-functional teams to ensure alignment of testing efforts and project deliverables.",
-                    "Actively participated in team meetings, providing insights and suggestions to enhance overall software quality.",
-                    "Written automation script using Test Complete for the functional test cases of desktop application.",
-                    "Maintaining knowledge of industry best practices and emerging technologies in software testing."
-                ],
-                tools: ['Test Complete', 'JIRA', 'SQL', 'Agile'],
-            },
-            'wedaedalus-mid': {
-                title: 'Test Automation Engineer (Mid-Level)',
-                company: 'WeDaedalus LLC || Michigan, USA',
-                duration: 'July 2022 – October 2023',
-                responsibilities: [
-                    "Define and drive the overall test automation strategy, considering the application's architecture, complexity, and testing goals.",
-                    "Collaborate with QA and development teams to determine which test cases should be automated and which should remain manual.",
-                    "Design and architect advanced, scalable automation frameworks that are modular, maintainable, and can accommodate complex test scenarios.",
-                    "Implement advanced automation techniques, such as data-driven testing, keyword-driven testing, and behavior-driven development (BDD).",
-                    "Lead the integration of automated tests into the CI/CD pipeline using Bamboo, ensuring seamless execution of tests on every code commit and providing rapid feedback to developers.",
-                    "Continuously evaluate and improve the test automation process by identifying bottlenecks, inefficiencies, and areas for enhancement."
-                ],
-                tools: ['Selenium', 'Cypress', 'BDD', 'Bamboo', 'CI/CD', 'Java', 'Python'],
-            },
-            'wedaedalus-test-auto': {
-                title: 'Test Automation Engineer',
-                company: 'WeDaedalus LLC || Michigan, USA',
-                duration: 'August 2021 – June 2022',
-                responsibilities: [
-                    "Developed and maintained a comprehensive test automation strategy that outlined which test cases would be automated, leading to improved testing efficiency and reduced manual effort.",
-                    "Designed and implemented an automation framework using tools such as Selenium WebDriver, KATALON studio and Cypress.",
-                    "Created and executed automated test scripts for functional, regression, and performance testing, helping to identify defects early in the development process.",
-                    "Integrated automated tests into the Jenkins CI/CD pipeline, enabling automated testing of every code commit and providing rapid feedback to the development team.",
-                    "Mentored junior team members, providing guidance on test automation best practices, tools, and techniques."
-                ],
-                tools: ['Selenium WebDriver', 'Katalon Studio', 'Cypress', 'Jenkins', 'CI/CD'],
-            },
-            'wedaedalus-jr': {
-                title: 'Jr. QA Automation Engineer',
-                company: 'WeDaedalus LLC || Michigan, USA',
-                duration: 'March 2021 – July 2021',
-                responsibilities: [
-                    "System Testing, State Transition Testing, Regression Testing, Sanity Testing, Smoke Testing.",
-                    "Automation Testing with Cypress, KATALON.",
-                    "Preparing and Executing Automation Test Cases, Test Plans.",
-                    "Working with CI/CD Pipeline in Jenkins.",
-                    "Participating in Agile Scrum Rituals.",
-                    "Maintaining liaisons with Developers, Business Analysts."
-                ],
-                tools: ['Cypress', 'Katalon Studio', 'Jenkins', 'Agile/Scrum'],
-            },
-            'olivine-intern': {
-                title: 'Intern QA Engineer',
-                company: 'Olivine Limited || Dhaka, Bangladesh',
-                duration: 'September 2020 – December 2020',
-                responsibilities: [
-                    "Saint Martin - SRS || SDD || User Guideline.",
-                    "Learning Management System- SRS.",
-                    "Manual testing on Saint Martin, Prottoyon web application.",
-                    "Manual Testing on Joy Bangla, Circuit House Management System, Barta mobile application.",
-                    "Client support"
-                ],
-                tools: ['Manual Testing', 'SRS', 'SDD', 'User Guideline'],
-            }
-        };
+    async function initExperiencePopups() {
+        const response = await fetch('experience.json');
+        const experienceData = await response.json();
 
         const timelineItems = document.querySelectorAll('.timeline-content[data-experience]');
         const popup = document.getElementById('experience-popup');
